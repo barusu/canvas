@@ -1,0 +1,17 @@
+#sidebar { width: 30px; height: 90px; }
+
+h1 { font-size: 1.6rem; }
+
+h2 { font-size: 1.2rem; }
+
+h3 { font-size: 1rem; }
+
+h4 { font-size: .8rem; }
+
+h5 { font-size: .7rem; }
+
+h6 { font-size: .6rem; }
+
+body { font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif; }
+
+/*# sourceMappingURL=base.css.map */
