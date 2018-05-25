@@ -66,5 +66,5 @@ function draw(e) {
 }
 setInterval(() => {
   draw({offsetX: Math.random() * 600, offsetY: Math.random() * 400});
-}, 3000);
+}, 1000);
 
