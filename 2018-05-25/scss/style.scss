@@ -1,3 +1,16 @@
-html {
-  font-size: 20px;
+@import './libs/rest';
+
+body {
+  background-color: #eee;
+  padding: 0 5%;
+}
+.canvas {
+  width: 300px;
+  height: 200px;
+  background-color: #fff;
+  &.l {
+    width: 600px;
+    height: 400px;
+    cursor: pointer;
+  }
 }
