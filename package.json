@@ -1,0 +1,36 @@
+{
+  "name": "canvas",
+  "version": "1.0.0",
+  "description": "canvas",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barusu/canvas.git"
+  },
+  "keywords": [
+    "canvas"
+  ],
+  "author": "shiro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/barusu/canvas/issues"
+  },
+  "homepage": "https://github.com/barusu/canvas#readme",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-babel": "^7.0.1",
+    "gulp-base64": "^0.1.3",
+    "gulp-cssnano": "^2.1.3",
+    "gulp-notify": "^3.2.0",
+    "gulp-rename": "^1.2.3",
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "jspm": "^0.16.48"
+  }
+}
