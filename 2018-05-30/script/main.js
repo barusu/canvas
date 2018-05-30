@@ -146,6 +146,10 @@ function draw(e) {
     sp = {x: e.offsetX, y: e.offsetY};
   }
 }
+function addNewLine() {
+  sp = null;
+  state = true;
+}
 
 
 
