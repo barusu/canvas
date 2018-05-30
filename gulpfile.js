@@ -12,9 +12,10 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     babel = require('gulp-babel'),
     base64 = require('gulp-base64');
+var rootpath = '**/2018-05-30/';
 
 gulp.task('sass', function() {
-  return gulp.src('**/scss/!(_)*.scss')
+  return gulp.src(rootpath + 'scss/!(_)*.scss')
     .pipe(map.init())
     .pipe(sass({ style: 'expanded' }))
     .pipe(autoprefixer({browsers:['last 2 version', 'safari 5', 'ie 9', 'opera 12.1', 'ios 6', 'android 4']}))
@@ -29,7 +30,7 @@ gulp.task('sass', function() {
 });
 
 gulp.task('script', function() {
-  return gulp.src('**/script/!(_)*.js')
+  return gulp.src(rootpath + 'script/!(_)*.js')
     .pipe(map.init())
     .pipe(babel({ presets: ['es2015']}))
     .pipe(uglify())
@@ -42,8 +43,8 @@ gulp.task('script', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch('**/scss/*.scss', ['sass']);
-  gulp.watch('**/script/*.js', ['script']);
+  gulp.watch(rootpath + 'scss/*.scss', ['sass']);
+  gulp.watch(rootpath + 'script/*.js', ['script']);
 });
 
 gulp.task('default', function() {
