@@ -138,7 +138,6 @@ function draw(e) {
       poi = canvas.addCurve(sp, {x: e.offsetX, y: e.offsetY});
       state = false;
     }else {
-      console.log('change');
       canvas.updateLine(poi, sp, {x: e.offsetX, y: e.offsetY})
     }
     sp = null;
