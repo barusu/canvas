@@ -106,6 +106,8 @@
       });
     }
 
+    loop();
+
     return {
       addCurve(a, b, radian = 2.6) {
         var l = lines.push(new Line(a, b, radian));
@@ -119,14 +121,15 @@
 })(window);
 
 var canvas = initCanvas('canvas');
-var sp, status = true, poi;
+var sp, state = true, poi;
 
 function draw(e) {
   if(sp) {
-    if(status) {
+    if(state) {
       poi = canvas.addCurve(sp, {x: e.offsetX, y: e.offsetY});
-      status = false;
+      state = false;
     }else {
+      console.log('change');
       canvas.updateLine(poi, sp, {x: e.offsetX, y: e.offsetY})
     }
     sp = null;
