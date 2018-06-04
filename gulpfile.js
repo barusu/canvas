@@ -1,5 +1,5 @@
 /**
- * @author shiro
+ * @author shiro https://github.com/barusu
  */
 
 var gulp = require('gulp'),
@@ -12,7 +12,7 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     babel = require('gulp-babel'),
     base64 = require('gulp-base64');
-var rootpath = '**/2018-05-30/';
+var rootpath = '**/2018-06-04/';
 
 gulp.task('sass', function() {
   return gulp.src(rootpath + 'scss/!(_)*.scss')
