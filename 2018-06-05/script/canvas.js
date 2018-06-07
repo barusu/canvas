@@ -13,13 +13,17 @@
     };
   })();
 
+  var ratio = 1;
+
   // 获取 Canvas 2D 上下文
   function get2DContext(canvas) {
-    var ctx;
+    var ctx, tctx;
+    var trailCanvas = document.createElement("canvas");
 
     if(typeof(canvas) === 'string') canvas = document.getElementById(canvas);
     if(canvas && canvas.nodeType === 1 && canvas.nodeName === 'CANVAS') {
       ctx = canvas.getContext('2d');
+
       // 获取设备分辨率信息
       const devicePixelRatio = window.devicePixelRatio || 1;
       const backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
@@ -27,12 +31,22 @@
                                 ctx.msBackingStorePixelRatio ||
                                 ctx.oBackingStorePixelRatio ||
                                 ctx.backingStorePixelRatio || 1;
-      const ratio = devicePixelRatio / backingStoreRatio;
+      ratio = devicePixelRatio / backingStoreRatio;
+
       // 按比例缩放Canvas
       canvas.width = canvas.clientWidth * ratio;
       canvas.height = canvas.clientHeight * ratio;
       ctx.scale(ratio, ratio);
-      return ctx;
+      // 轨迹层
+      trailCanvas.width = canvas.width;
+      trailCanvas.height = canvas.height;
+      tctx = trailCanvas.getContext('2d');
+      tctx.scale(ratio, ratio);
+
+      // test
+      // trailCanvas.className = 'canvas';
+      // document.body.append(trailCanvas);
+      return {ctx, tctx};
     }else {
       console.error('El is not a Canvas');
       return false;
@@ -47,9 +61,9 @@
   // 直线路径转点数组
   function pathToPoints(path) {
     var points = [], start, end, distance, vx, vy, progress, i;
-    for(i = 0; i < this.paths.length - 1; i++) {
-      start = this.paths[i];
-      end = this.paths[i + 1];
+    for(i = 0; i < path.length - 1; i++) {
+      start = path[i];
+      end = path[i + 1];
       distance = Math.floor(getDistance(start, end));
       vx = (end[0] - start[0]) / distance;
       vy = (end[1] - start[1]) / distance;
@@ -66,10 +80,10 @@
   function circleToPoints(c, radius) {
     var points = [], min = 1 / radius, progress = 0;
     while(progress < Math.PI * 2) {
-      points.push([c[0] + (Math.sin(progress) * radius), c[1]] - (radius * Math.cos(progress)));
+      points.push([c[0] + (Math.sin(progress) * radius), c[1] - (radius * Math.cos(progress))]);
       progress += min;
     }
-    points.push([c[0], c[1] -radius]);
+    points.push([c[0], c[1] - radius]);
     return points;
   }
 
@@ -106,69 +120,128 @@
   }
 
   // 创建轨迹类
-  var Trail = function(paths, speed = 1) {
-    this.paths = paths;
-    this.speed = speed;
-    this.shadowColor = '#fff';
-    this.shadowBlur = 10;
+  var Trail = function(option) {
+    if(option.points) {
+      this.points = option.points;
+    }else if(option.path) {
+      this.points = pathToPoints(option.path);
+    }
+    if(!this.points) this.points = [];
     this.step = 0;
-    this.radius = 2;
     this.old = [];
+    this.brush = option.brush || '#fff';
+    this.shadowColor = option.shadowColor || '#fff';
+    this.shadowBlur = option.shadowBlur || 0;
+    this.radius = option.radius || 1;
+    this.speed = option.speed || 1;
+    this.progress = 0;
   }
   Trail.prototype = {
+    get plength() {
+      return this.points.length;
+    },
     paint(ctx) {
-      var x = this.Points[this.step][0];
-      var y = this.Points[this.step][1];
+      var preservation = true;
+      this.progress += this.speed;
+      while(this.step < this.progress && this.step < this.plength) {
+        this.draw(ctx);
+        this.step++;
+        preservation = false;
+      }
+      if(preservation) this.draw(ctx);
+      if(this.step >= this.plength) {
+        this.step = 0;
+        this.progress -= this.plength;
+      }
+    },
+    draw(ctx) {
+      var x = this.points[this.step][0];
+      var y = this.points[this.step][1];
       if(this.old[0] != x || this.old[1] != y) {
         this.old = [x, y];
         ctx.save();
-        var grd = ctx.createRadialGradient(x, y, 1, x, y, this.radius);
-        grd.addColorStop(0, "rgba(255,255,255,.4)");
-        grd.addColorStop(1, "rgba(255,255,255,0)");
-        ctx.fillStyle = grd;
+        ctx.fillStyle = this.brush;
         ctx.shadowColor = this.shadowColor;
         ctx.shadowBlur = this.shadowBlur;
         ctx.beginPath();
-        ctx.arc(x, y, this.radius * 2, 0, Math.PI * 2);
+        ctx.arc(x, y, this.radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.closePath();
         ctx.restore();
       }
-      this.step ++;
-      if(this.step >= this.Points.length) this.step = 0;
-    },
-    get Points() {
-      var points = [], start, end, distance, vx, vy, progress, i;
-      for(i = 0; i < this.paths.length - 1; i++) {
-        start = this.paths[i];
-        end = this.paths[i + 1];
-        distance = Math.floor(getDistance(start, end));
-        vx = (end[0] - start[0]) / distance;
-        vy = (end[1] - start[1]) / distance;
-        progress = 0;
-        while(progress < distance) {
-          progress += this.speed;
-          points.push([start[0] + vx * progress, start[1] + vy * progress]);
-        }
+    }
+  };
+
+  // 圈圈类
+  var Circle = function(option) {
+    this.radius = option.radius || 7;
+    this.c = option.c;
+    this.brush = option.brush || '#fff';
+    this.width = option.width || 2;
+  }
+  Circle.prototype = {
+    paint(ctx) {
+      ctx.save();
+      ctx.strokeStyle = this.brush;
+      ctx.lineWidth = this.width;
+      ctx.beginPath();
+      ctx.arc(this.c[0], this.c[1], this.radius, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.closePath();
+      ctx.restore();
+    }
+  };
+
+  // 路径类
+  var Path = function(option) {
+    this.path = option.path;
+    this.brush = option.brush || '#fff';
+    this.width = option.width || 2;
+  }
+  Path.prototype = {
+    paint(ctx) {
+      var poi = 0;
+      ctx.save();
+      ctx.strokeStyle = this.brush;
+      ctx.lineWidth = this.width;
+      ctx.lineJoin = "round";
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(this.path[poi][0], this.path[poi][1]);
+      poi++;
+      while(poi < this.path.length) {
+        ctx.lineTo(this.path[poi][0], this.path[poi][1]);
+        poi++;
       }
-      return points;
+      ctx.stroke();
+      ctx.closePath();
+      ctx.restore();
     }
   };
 
   scope.initCanvas = function(el) {
-    var ctx = get2DContext(el);
+    var ctxs = get2DContext(el);
+    var normal = [];
     var trails = [];
 
     function loop() {
-      ctx.fillStyle = 'rgba(0,0,0,.95)';
-      var prev = ctx.globalCompositeOperation;
-      ctx.globalCompositeOperation = 'destination-in';
-      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-      ctx.globalCompositeOperation = prev;
+      ctxs.tctx.fillStyle = 'rgba(0,0,0,.95)';
+      var prev = ctxs.tctx.globalCompositeOperation;
+      ctxs.tctx.globalCompositeOperation = 'destination-in';
+      ctxs.tctx.fillRect(0, 0, ctxs.tctx.canvas.width / ratio, ctxs.tctx.canvas.height / ratio);
+      ctxs.tctx.globalCompositeOperation = prev;
 
       trails.forEach(i => {
-        i.paint(ctx);
+        i.paint(ctxs.tctx);
       });
+
+      ctxs.ctx.clearRect(0, 0, ctxs.ctx.canvas.width / ratio, ctxs.ctx.canvas.height / ratio);
+
+      normal.forEach(i => {
+        i.paint(ctxs.ctx);
+      });
+      ctxs.ctx.globalCompositeOperation = 'source-over';
+      ctxs.ctx.drawImage(ctxs.tctx.canvas, 0, 0, ctxs.tctx.canvas.width / ratio, ctxs.tctx.canvas.height / ratio);
       RAF(() => {
         loop();
       });
@@ -177,22 +250,52 @@
     loop();
 
     return {
-      addTrail(paths) {
-        trails.push(new Trail(paths));
+      drawTrail(path) {
+        trails.push(new Trail({
+          path
+        }));
       },
-      getHexagon(c, r) {
-        trails.push(new Trail(getHexagon(c, r)));
-        console.log(getHexagon(c, r));
+      drawHexagon(c, radius, direction) {
+        // trails.push(new Trail({
+        //   path: getHexagon(c, radius, direction)
+        // }));
+        var path = getHexagon(c, radius, direction);
+        for(var i = 0; i < path.length - 1; i++) {
+          trails.push(new Trail({
+            path: [path[i], path[i + 1]],
+            speed: 2
+          }));
+        }
+        normal.push(new Path({
+          path,
+          brush: 'rgba(255,255,255,.4)'
+        }));
+        normal.push(new Path({
+          path: [path[0], path[2], path[5], path[3], path[1], path[4], path[6]],
+          brush: 'rgba(255,255,255,.5)'
+        }));
+        trails.push(new Trail({
+          path: [path[0], path[2], path[5], path[3], path[1], path[4], path[6]],
+          speed: 3
+        }));
+        trails.push(new Trail({
+          path: [path[3], path[5], path[2], path[6], path[4], path[1], path[3]],
+          speed: 3
+        }));
+      },
+      drawCircle(c, radius, reverse) {
+        var points = circleToPoints(c, radius);
+        if(reverse) points.reverse();
+        trails.push(new Trail({
+          points: points
+        }));
+        normal.push(new Circle({
+          c,
+          radius,
+          brush: 'rgba(255,255,255,.4)'
+        }));
       }
     };
   };
 })(window);
-
-var canvas = initCanvas('canvas');
-
-canvas.getHexagon([300, 200], 150);
-
-
-
-
 

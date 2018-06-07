@@ -6,3 +6,5 @@
 * [Day 2: 使用贝塞尔曲线画圆弧](http://lawliet.cc/2018-05-26/index.html)
 * [Day 3: 绘制虚线](http://lawliet.cc/2018-05-29/index.html)
 * [Day 4: 给虚线加特效](http://lawliet.cc/2018-05-30/index.html)
+* [Day 5: 轨迹动画](http://lawliet.cc/2018-06-04/index.html)
+* [Day 6: 画个简单的法阵](http://lawliet.cc/2018-06-05/index.html)
