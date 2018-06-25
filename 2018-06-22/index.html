@@ -10,21 +10,18 @@
   <body>
     <h1>SVG Demo</h1>
     <div class="svg-demo">
-      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink= "http://www.w3.org/1999/xlink">
-        <rect width="100%" height="100%" fill="#E7E7E8"/>
-        <image xmlns:xlink= "http://www.w3.org/1999/xlink" xlink:href="images/a.png" width="100%" height="100%" />
-      </svg>
+      <div class="img" style="background-image: url(images/a.png)"></div>
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink= "http://www.w3.org/1999/xlink">
         <defs>
           <clipPath id="mask">
-            <circle id="mask-circle" cx="50%" cy="50%" r="8%" style="fill: #ffffff"/>
+            <circle id="mask-circle" cx="50%" cy="80%" r="8%" style="fill: #ffffff"/>
           </clipPath>
         </defs>
         <g clip-path="url(#mask)">
           <rect width="100%" height="100%" fill="#272730"/>
           <image xmlns:xlink= "http://www.w3.org/1999/xlink" xlink:href="images/b.png" width="100%" height="100%" />
         </g>
-        <circle id="circle-shadow" cx="50%" cy="50%" r="8%" style="stroke: #fff; fill: transparent; stroke-width: 5;" />
+        <circle id="circle-shadow" cx="50%" cy="80%" r="8%" style="stroke: #fff; fill: transparent; stroke-width: 3;" />
       </svg>
     </div>
 
