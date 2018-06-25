@@ -8,3 +8,7 @@
 * [Day 4: 给虚线加特效](http://lawliet.cc/2018-05-30/index.html)
 * [Day 5: 轨迹动画](http://lawliet.cc/2018-06-04/index.html)
 * [Day 6: 画个简单的法阵](http://lawliet.cc/2018-06-05/index.html)
+* [Day 7: canvas转背景](http://lawliet.cc/2018-06-25/index.html)
+
+###### 混入的其它东西
+* [SVG: 蒙板(mask)是使用Demo](http://lawliet.cc/2018-05-22/index.html)
