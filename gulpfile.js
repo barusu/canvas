@@ -12,7 +12,7 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     babel = require('gulp-babel'),
     base64 = require('gulp-base64');
-var rootpath = '**/2018-06-25/';
+var rootpath = '**/2018-07-05/';
 
 gulp.task('sass', function() {
   return gulp.src(rootpath + 'scss/!(_)*.scss')

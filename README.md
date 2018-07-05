@@ -9,6 +9,7 @@
 * [Day 5: 轨迹动画](http://lawliet.cc/2018-06-04/index.html)
 * [Day 6: 画个简单的法阵](http://lawliet.cc/2018-06-05/index.html)
 * [Day 7: canvas转背景](http://lawliet.cc/2018-06-25/index.html)
+* [Day 8: 视频播放](http://lawliet.cc/2018-07-05/index.html)
 
 ###### 混入的其它东西
-* [SVG: 蒙板(mask)是使用Demo](http://lawliet.cc/2018-05-22/index.html)
+* [SVG: 蒙板(mask)的正确使用方式之一(Demo)](http://lawliet.cc/2018-05-22/index.html)
