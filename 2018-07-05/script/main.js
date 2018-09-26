@@ -5,7 +5,7 @@
 
 var video = document.createElement('video');
 video.loop = true;
-video.src = 'http://www.lawliet.cc/resource/kizunaAI.mp4';
+video.src = '../libs/ai.mp4';
 document.body.onclick = function() {
   video.play();
 }

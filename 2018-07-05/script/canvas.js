@@ -75,8 +75,11 @@
 
     function loop() {
       if(video && video.duration && !video.ended && !video.paused) {
-        var scale = Math.min(cw / w, ch / h);
-        ctx.drawImage(video, (cw - w * scale) / 2, (ch - h * scale) / 2, w * scale, h * scale);
+        var scale = Math.min(cw / w, ch / h) / 2;
+        ctx.drawImage(video, (cw / 2 - w * scale) / 2, (ch / 2 - h * scale) / 2, w * scale, h * scale);
+        ctx.drawImage(video, cw / 2 + (cw / 2 - w * scale) / 2, (ch / 2 - h * scale) / 2, w * scale, h * scale);
+        ctx.drawImage(video, (cw / 2 - w * scale) / 2, ch / 2 + (ch / 2 - h * scale) / 2, w * scale, h * scale);
+        ctx.drawImage(video, cw / 2 + (cw / 2 - w * scale) / 2, ch / 2 + (ch / 2 - h * scale) / 2, w * scale, h * scale);
       }
       RAF(() => {
         loop();
