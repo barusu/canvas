@@ -12,4 +12,4 @@
 * [Day 8: 视频播放](http://lawliet.cc/2018-07-05/index.html)
 
 ###### 混入的其它东西
-* [SVG: 蒙板(mask)的正确使用方式之一(Demo)](http://lawliet.cc/2018-05-22/index.html)
+* [SVG: 蒙板(mask)的正确使用方式之一(Demo)](http://lawliet.cc/2018-06-22/index.html)
