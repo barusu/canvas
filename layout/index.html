@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <title>layout</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+
+  <body>
+    <div id="main" class="layout">
+      <div class="card" @mousedown.self="move(i)" v-for="i in blocks" :style="i.style">{{i.id}}</div>
+    </div>
+    <script src="../libs/vue.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
