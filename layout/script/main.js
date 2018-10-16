@@ -145,6 +145,7 @@
       }
       return false;
     },
+    // 检查矩形区域 空域: 坐标, 包含id: null, 有其它Block: false
     checkMatrix(x1, x2, y1, y2, id) {
       if(typeof x1 !== typeof 0 || typeof x2 !== typeof 0 || typeof y1 !== typeof 0 || typeof y2 !== typeof 0) return false;
       var i;
