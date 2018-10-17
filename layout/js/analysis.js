@@ -1,0 +1,2 @@
+"use strict";var json={list:[{id:1,x:0,y:0,w:4,h:10,bg:"#fc605d",type:"iframe",url:"https://www.baidu.com/"},{id:2,x:5,y:0,w:4,h:10,bg:"#fdbc40",type:"iframe",url:"https://www.baidu.com/"}]};window,new Vue({el:"#main",data:{list:[]},computed:{List:function(){var i=Math.floor(this.$el.clientWidth/12);return this.list.map(function(t){return{id:t.id,style:{top:10*t.y+"px",left:t.x*i+"px",width:t.w*i+"px",height:10*t.h+"px",background:t.bg}}})}},mounted:function(){this.list=json.list}});
+//# sourceMappingURL=analysis.js.map

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <title>layout</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+
+  <body>
+    <div id="main" class="layout">
+      <div class="block" v-for="i in List" :style="i.style"></div>
+    </div>
+    <script src="../libs/vue.min.js"></script>
+    <script src="js/analysis.js"></script>
+  </body>
+</html>
