@@ -9,9 +9,25 @@
 
   <body>
     <div id="main" class="layout">
-      <div class="block" v-for="i in List" :style="i.style"></div>
+      <div class="block" v-for="i in List" :style="i.style">
+        <div :is="i.type" :option="i.option"></div>
+      </div>
+      <div class="block" v-for="i in Decor" :style="i.style">
+        <div :is="i.type" :option="i.option"></div>
+      </div>
     </div>
+    <script type="text/x-template" id="iframe">
+      <iframe :src="Src" frameborder="0" class="oo-iframe"></iframe>
+    </script>
+    <script type="text/x-template" id="sunburst">
+      <div class="oo-chart"></div>
+    </script>
+    <script type="text/x-template" id="echarts">
+      <div class="oo-chart"></div>
+    </script>
+    <script src="../libs/echarts.min.js"></script>
     <script src="../libs/vue.min.js"></script>
+    <script src="js/component.js"></script>
     <script src="js/analysis.js"></script>
   </body>
 </html>

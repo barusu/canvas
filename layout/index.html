@@ -8,9 +8,21 @@
   </head>
 
   <body>
-    <div id="main" class="layout">
-      <div class="card" @mousedown.self="move(i)" v-for="i in blocks" :style="i.style">{{i.id}}</div>
-    </div>
+    <main id="main" class="layout">
+      <!-- <div class="card" @mousedown.self="move(i)" v-for="i in blocks" :style="i.style">{{i.id}}</div> -->
+      <div class="content" ref="content" :style="{height: lines * 10 + 'px'}">
+        <div class="card" v-for="(i, index) in blocks" :style="i.style">
+          <div class="card-body">
+            <div class="card-content" ></div>
+            <div class="card-opration" @mousedown.self="move(i)" :class="{'murderer': i.id == murdererID}">
+              <div class="to-edit" @dblclick="editItem(i)"></div>
+              <div class="se" @mousedown.self="resize(i)"></div>
+              <div class="del" @click.stop="del(i, index)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
     <script src="../libs/vue.min.js"></script>
     <script src="js/main.js"></script>
   </body>

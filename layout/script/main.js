@@ -207,9 +207,9 @@
   function Block() {
     this.id = Xc.sequence;
     this.width = 4;
-    this.height = 3;
+    this.height = 10;
     this.minWidth = 1;
-    this.minHeight = 1;
+    this.minHeight = 5;
     this.x = 0;
     this.y = 0;
     this.ox = 0;
@@ -247,15 +247,15 @@
         if(target.y < 0) target.y = 0;
         if(target.x + target.width > 12) target.x = 12 - target.width;
       }else {
-        target.style.width = ubw * past.w + e.clientX - past.x + 'px';
-        target.style.height = ubh * past.h + e.clientY - past.y + 'px';
-        if((ubw * past.w + e.clientX - past.x) < ubw * target.minWidth) target.style.width = ubw * target.minWidth + 'px';
-        if((ubh * past.h + e.clientY - past.y) < ubh * target.minHeight) target.style.height = ubh * target.minHeight + 'px';
-        target.w = past.w + Math.round((e.clientX - past.x) / ubw);
-        target.h = past.h + Math.round((e.clientY - past.y) / ubh);
-        if(target.x + target.w > 12) target.w = 12 - target.x;
-        if(target.w < target.minWidth) target.w = target.minWidth;
-        if(target.h < target.minHeight) target.h = target.minHeight;
+        target.style.width = ubw * past.width + e.clientX - past.x + 'px';
+        target.style.height = ubh * past.height + e.clientY - past.y + 'px';
+        if((ubw * past.width + e.clientX - past.x) < ubw * target.minWidth) target.style.width = ubw * target.minWidth + 'px';
+        if((ubh * past.height + e.clientY - past.y) < ubh * target.minHeight) target.style.height = ubh * target.minHeight + 'px';
+        target.width = past.width + Math.round((e.clientX - past.x) / ubw);
+        target.height = past.height + Math.round((e.clientY - past.y) / ubh);
+        if(target.x + target.width > 12) target.width = 12 - target.x;
+        if(target.width < target.minWidth) target.width = target.minWidth;
+        if(target.height < target.minHeight) target.height = target.minHeight;
       }
       matrix.update(target);
       inspectVictim();
@@ -330,6 +330,15 @@
         this.murdererID = i.id;
         target = i;
         past = {x: event.clientX, y: event.clientY, type: true};
+        window.addEventListener('mousemove', move);
+        window.addEventListener('mouseup', over);
+      },
+      resize(i) {
+        over();
+        if(event.button === 2) return;
+        this.murdererID = i.id;
+        target = i;
+        past = {x: event.clientX, y: event.clientY, width: i.width, height: i.height, type: false};
         window.addEventListener('mousemove', move);
         window.addEventListener('mouseup', over);
       },
