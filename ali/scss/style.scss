@@ -1,0 +1,178 @@
+@import './libs/base';
+
+header {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 50px;
+  background: #252a2f;
+  .logo {
+    display: inline-block;
+    float: left;
+    width: 51px;
+    height: 100%;
+    font-size: 26px;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
+    // border-right: 1px solid hsla(0,0%,100%,.15);
+    margin-right: 1px;
+    cursor: pointer;
+    &:hover {
+      background-color: #191d21;
+    }
+  }
+  .title {
+    float: left;
+    line-height: 50px;
+    padding: 0 12px;
+    font-size: 14px;
+    vertical-align: top;
+    color: #fff;
+    cursor: default;
+    user-select: none;
+    &:hover {
+      background-color: #191d21;
+    }
+  }
+}
+.sidebar {
+  position: fixed;
+  top: 50px; bottom: 0;
+  left: 0;
+  width: 50px;
+  background: #252a2f;
+  z-index: 9;
+  transition: width 0.2s ease;
+  &:hover {
+    width: 230px;
+  }
+  .main-side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-top: 1px solid hsla(0,0%,100%,.1);
+    border-right: 1px solid hsla(0,0%,100%,.1);
+    background: inherit;
+    overflow: hidden;
+    z-index: 3;
+    .content {
+      width: 250px;
+    }
+  }
+  .nav-side {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    max-width: 200px;
+    border-top: 1px solid hsla(0,0%,100%,.1);
+    border-right: 1px solid hsla(0,0%,100%,.1);
+    box-shadow: -50px 0 #252a2f;
+    background: inherit;
+    overflow: hidden;
+    z-index: 2;
+    transition: right 0.2s ease;
+    .content {
+      width: 220px;
+    }
+    &.open {
+      right: -200px;
+      transition: right 0.2s ease .2s;
+    }
+  }
+  .terminal-side {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 250px;
+    border-top: 1px solid hsla(0,0%,100%,.1);
+    border-right: 1px solid hsla(0,0%,100%,.1);
+    background: inherit;
+    overflow: hidden;
+    z-index: 1;
+    transition: right 0.2s ease;
+    visibility: hidden;
+    .content {
+      width: 270px;
+    }
+    &.ready {
+      right: -200px;
+      visibility: visible;
+    }
+    &.open {
+      right: -450px;
+      transition: right 0.2s ease .1s;
+    }
+  }
+  .item {
+    color: hsla(0,0%,100%,.65);
+    height: 40px;
+    cursor: pointer;
+    transition: background .1s;
+    .iconfont {
+      display: inline-block;
+      float: left;
+      line-height: 40px;
+      font-size: 16px;
+      width: 50px;
+      text-align: center;
+      transition: color .2s;
+    }
+    .icon-right {
+      width: 30px;
+    }
+    .label {
+      display: inline-block;
+      float: left;
+      vertical-align: middle;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 12px;
+      width: 150px;
+      line-height: 40px;
+      user-select: none;
+      transition: color .2s;
+    }
+    .seize {
+      display: inline-block;
+      float: left;
+      width: 20px;
+      height: 100%;
+    }
+    &.active,
+    &:hover {
+      background-color: #191d21;
+      .iconfont {
+        color: #fff;
+      }
+      .icon-right,
+      .label {
+        color: #00c1de;
+      }
+    }
+  }
+}
+main {
+  position: absolute;
+  top: 50px; bottom: 0;
+  left: 50px; right: 0;
+  overflow: hidden;
+  overflow-y: auto;
+  transition: left 0.2s ease;
+}
+#sidebar_control:checked + header {
+  .logo {
+    background-color: #191d21;
+  }
+  + .sidebar {
+    width: 230px;
+    + main {
+      left: 230px;
+    }
+  }
+}
+.iconfont {
+  font-size: inherit;
+}

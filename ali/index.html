@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <title>Ali</title>
+    <link rel="stylesheet" href="libs/iconfont.css">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+
+  <body>
+    <input type="checkbox" id="sidebar_control">
+    <header>
+      <label for="sidebar_control" class="logo"><i class="iconfont icon-logo-snapchat"></i></label>
+      <div class="title">管理控制台</div>
+    </header>
+    <div class="sidebar" id="sidebar" @mouseleave="close">
+      <div class="main-side">
+        <div class="content">
+          <div class="item" :class="{'active': index === mindex}" v-for="(i, index) in ich" @mouseenter="selectmain(index)">
+            <i class="iconfont" :class="i.icon"></i>
+            <div class="label" v-text="i.label"></div>
+            <i class="iconfont icon-right"></i>
+          </div>
+        </div>
+      </div>
+      <div class="nav-side" :class="{'open': ni.length !== 0}">
+        <div class="content">
+          <div class="item" v-for="(i, index) in ni" @mouseenter="selectnav(index)">
+            <div class="seize"></div>
+            <div class="label" v-text="i.label"></div>
+            <i class="iconfont icon-right"></i>
+          </div>
+        </div>
+      </div>
+      <div class="terminal-side" :class="{'open': san.length !== 0, 'ready': ni.length !== 0}">
+        <div class="content">
+          <div class="item" v-for="i in san">
+            <div class="seize"></div>
+            <div class="label" v-text="i.label"></div>
+            <i class="iconfont icon-right"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <main>
+      <ul>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+        <li>sffaa</li>
+      </ul>
+    </main>
+    <script src="libs/vue.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
