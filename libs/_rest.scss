@@ -14,3 +14,10 @@ p {
 *::after {
   box-sizing: border-box;
 }
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+  float: none;
+  *zoom: 1;
+}

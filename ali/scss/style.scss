@@ -1,11 +1,15 @@
 @import './libs/base';
 
+body {
+  font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
+}
 header {
   position: fixed;
   top: 0; left: 0;
   width: 100%;
   height: 50px;
   background: #252a2f;
+  z-index: 1;
   .logo {
     display: inline-block;
     float: left;
@@ -33,6 +37,109 @@ header {
     user-select: none;
     &:hover {
       background-color: #191d21;
+    }
+  }
+  .user-box {
+    position: relative;
+    float: right;
+    .user-image {
+      width: 56px;
+      height: 50px;
+      padding: 9px 12px;
+      cursor: pointer;
+      .img {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #ded center no-repeat / contain;
+      }
+      &:hover {
+        background-color: rgba(0,0,0,.25);
+      }
+    }
+    .user-content {
+      position: absolute;
+      top: 50px; right: 0;
+      width: 280px;
+      background-color: #191d21;
+      transform: translate(100%, 0);
+      opacity: 0;
+      transition: all 0.3s;
+    }
+    .user-content-head {
+      padding: 10px 15px;
+      border-bottom: 1px solid hsla(0,0%,100%,.1);
+    }
+    .user-content-body {
+      padding: 8px 0;
+    }
+    .user-content-footer {
+      height: 41px;
+      border-top: 1px solid hsla(0,0%,100%,.1);
+      span {
+        display: block;
+        color: #fff;
+        text-align: center;
+        font-size: 12px;
+        line-height: 40px;
+        cursor: pointer;
+        transition: color 0.3s;
+        &:hover {
+          color: #00c1de;
+        }
+      }
+    }
+    .info {
+      height: 32px;
+      .img {
+        float: left;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #ded center no-repeat / contain;
+      }
+      .account {
+        overflow: hidden;
+        font-size: 12px;
+        line-height: 32px;
+        padding-left: 10px;
+        color: #fff;
+      }
+    }
+    .nav {
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+      li {
+        float: left;
+        width: 33.333333%;
+        border-left: 1px solid hsla(0,0%,100%,.1);
+        text-align: center;
+        list-style: none;
+        font-size: 12px;
+        color: #fff;
+        opacity: .85;
+        min-width: 0;
+        padding: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+        transition: color 0.3s;
+        &:first-child {
+          border-left: none;
+        }
+        &:hover {
+          color: #00c1de;
+        }
+      }
+    }
+    &.open {
+      background-color: #191d21;
+      .user-content {
+        transform: translate(0, 0);
+        opacity: 1;
+      }
     }
   }
 }
@@ -88,7 +195,7 @@ header {
     width: 250px;
     border-top: 1px solid hsla(0,0%,100%,.1);
     border-right: 1px solid hsla(0,0%,100%,.1);
-    background: inherit;
+    background: #303538;
     overflow: hidden;
     z-index: 1;
     transition: right 0.2s ease;
@@ -96,9 +203,13 @@ header {
     .content {
       width: 270px;
     }
+    .item .label {
+      width: 220px;
+    }
     &.ready {
       right: -200px;
       visibility: visible;
+      transition: right 0.2s ease .3s;
     }
     &.open {
       right: -450px;
@@ -110,6 +221,7 @@ header {
     height: 40px;
     cursor: pointer;
     transition: background .1s;
+    cursor: pointer;
     .iconfont {
       display: inline-block;
       float: left;
@@ -125,6 +237,7 @@ header {
     .label {
       display: inline-block;
       float: left;
+      color: #fff;
       vertical-align: middle;
       overflow: hidden;
       white-space: nowrap;
@@ -161,6 +274,10 @@ main {
   overflow: hidden;
   overflow-y: auto;
   transition: left 0.2s ease;
+  iframe {
+    width: 100%;
+    min-height: 100%;
+  }
 }
 #sidebar_control:checked + header {
   .logo {

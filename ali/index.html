@@ -10,9 +10,29 @@
 
   <body>
     <input type="checkbox" id="sidebar_control">
-    <header>
+    <header id="header">
       <label for="sidebar_control" class="logo"><i class="iconfont icon-logo-snapchat"></i></label>
       <div class="title">管理控制台</div>
+      <div class="user-box" @mouseleave="user_switch = true" :class="{'open': user_switch}">
+        <div class="user-image">
+          <div class="img" style="background-image: url(./images/zero.jpg);" @mouseenter="user_switch = true"></div>
+        </div>
+        <div class="user-content">
+          <div class="user-content-head">
+            <div class="info">
+              <div class="img" style="background-image: url(./images/zero.jpg);"></div>
+              <div class="account">2847*****@qq.com</div>
+            </div>
+            <ul class="nav clearfix">
+              <li>基本资料</li>
+              <li>基本资料</li>
+              <li>基本资料</li>
+            </ul>
+          </div>
+          <div class="user-content-body"></div>
+          <div class="user-content-footer"><span>退出</span></div>
+        </div>
+      </div>
     </header>
     <div class="sidebar" id="sidebar" @mouseleave="close">
       <div class="main-side">
@@ -26,7 +46,7 @@
       </div>
       <div class="nav-side" :class="{'open': ni.length !== 0}">
         <div class="content">
-          <div class="item" v-for="(i, index) in ni" @mouseenter="selectnav(index)">
+          <div class="item" v-for="(i, index) in ni" :class="{'active': index === nindex}" @mouseenter="selectnav(index)">
             <div class="seize"></div>
             <div class="label" v-text="i.label"></div>
             <i class="iconfont icon-right"></i>
@@ -38,62 +58,12 @@
           <div class="item" v-for="i in san">
             <div class="seize"></div>
             <div class="label" v-text="i.label"></div>
-            <i class="iconfont icon-right"></i>
           </div>
         </div>
       </div>
     </div>
     <main>
-      <ul>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-        <li>sffaa</li>
-      </ul>
+      <iframe src="https://www.baidu.com/" frameborder="0"></iframe>
     </main>
     <script src="libs/vue.min.js"></script>
     <script src="js/main.js"></script>

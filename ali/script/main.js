@@ -19,6 +19,30 @@
               action: ''
             }
           ]
+        }, {
+          id: '12',
+          label: '测试条目1-2',
+          children: [
+            {
+              id: '121',
+              label: '测试条目1-2-1',
+              action: ''
+            }
+          ]
+        }, {
+          id: '13',
+          label: '测试条目1-3',
+          children: [
+            {
+              id: '131',
+              label: '测试条目1-3-1',
+              action: ''
+            }, {
+              id: '132',
+              label: '测试条目1-3-2',
+              action: ''
+            }
+          ]
         }
       ]
     }, {
@@ -82,6 +106,14 @@
         }
         return [];
       }
+    }
+  });
+  var Header = new Vue({
+    el: '#header',
+    data: {
+      user_switch: false
+    },
+    methods: {
     }
   });
 })(window);
