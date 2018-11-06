@@ -13,7 +13,7 @@
     <header id="header">
       <label for="sidebar_control" class="logo"><i class="iconfont icon-logo-snapchat"></i></label>
       <div class="title">管理控制台</div>
-      <div class="user-box" @mouseleave="user_switch = true" :class="{'open': user_switch}">
+      <div class="user-box" @mouseleave="user_switch = false" :class="{'open': user_switch}">
         <div class="user-image">
           <div class="img" style="background-image: url(./images/zero.jpg);" @mouseenter="user_switch = true"></div>
         </div>
@@ -29,7 +29,22 @@
               <li>基本资料</li>
             </ul>
           </div>
-          <div class="user-content-body"></div>
+          <div class="user-content-body">
+            <ul>
+              <li>
+                <i class="iconfont icon-servicefill"></i>
+                <span>安全管控</span>
+              </li>
+              <li>
+                <i class="iconfont icon-servicefill"></i>
+                <span>安全管控</span>
+              </li>
+              <li>
+                <i class="iconfont icon-servicefill"></i>
+                <span>安全管控</span>
+              </li>
+            </ul>
+          </div>
           <div class="user-content-footer"><span>退出</span></div>
         </div>
       </div>
