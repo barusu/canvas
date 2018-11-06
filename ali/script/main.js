@@ -64,6 +64,36 @@
       ]
     }
   ];
+  function assembleTree(data) {
+    var t = [];
+    var list = data.map(i => {
+      return {
+        id: i.id,
+        icon: i.icon,
+        label: i.name,
+        action: i.url,
+        parentId: i.parentId
+      };
+    });
+
+    function findChild(i) {
+      var c = list.filter(c => c.parentId == i.id);
+      if(c) {
+        c.forEach(ci => {
+          findChild(ci);
+        });
+        i.children = c;
+      }
+    }
+
+    list.forEach(i => {
+      if(!i.parentId) {
+        findChild(i);
+        t.push(i);
+      }
+    });
+    return t;
+  }
   var store = {};
   var Sidebar = new Vue({
     el: '#sidebar',
@@ -73,6 +103,12 @@
       nindex: -1
     },
     methods: {
+      loadData() {
+        $.get(' https://easy-mock.com/mock/59a8fa924006183e48efd0e3/demo/nav', data => {
+          this.ich = assembleTree(data);
+          console.log(this.ich);
+        }, 'json');
+      },
       selectmain(index) {
         this.mindex = index;
         this.nindex = -1;
@@ -106,6 +142,9 @@
         }
         return [];
       }
+    },
+    mounted() {
+      this.loadData();
     }
   });
   var Header = new Vue({
