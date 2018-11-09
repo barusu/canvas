@@ -1,9 +1,14 @@
+<!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> -->
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset=utf-8>
     <meta name=viewport content="width=device-width,initial-scale=1">
-    <title>Ali</title>
+    <title>建达智云平台</title>
+    <link rel="stylesheet" href="libs/index.css">
     <link rel="stylesheet" href="libs/iconfont.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
@@ -11,8 +16,8 @@
   <body>
     <input type="checkbox" id="sidebar_control">
     <header id="header">
-      <label for="sidebar_control" class="logo"><i class="iconfont icon-logo-snapchat"></i></label>
-      <div class="title">管理控制台</div>
+      <label for="sidebar_control" class="logo"><img src="./images/logo_new.png" alt=""></label>
+      <div class="title">建达智云平台</div>
       <div class="user-box" @mouseleave="user_switch = false" :class="{'open': user_switch}">
         <div class="user-image">
           <div class="img" style="background-image: url(./images/zero.jpg);" @mouseenter="user_switch = true"></div>
@@ -45,32 +50,41 @@
               </li>
             </ul>
           </div>
-          <div class="user-content-footer"><span>退出</span></div>
+          <div class="user-content-footer"><a href="/user/logout.html">退出</a></div>
         </div>
       </div>
     </header>
-    <div class="sidebar" id="sidebar" @mouseleave="close">
+    <div class="sidebar" :class="{'hover': open}" id="sidebar" @mouseleave="close" @mousemove="opensidebar">
       <div class="main-side">
         <div class="content">
-          <div class="item" :class="{'active': index === mindex}" v-for="(i, index) in ich" @mouseenter="selectmain(index)">
+          <div class="item" :class="{'active': index === mindex, 'select': index === acmindex}" v-for="(i, index) in ich" @mouseenter="selectmain(index)" @click="open(i)">
             <i class="iconfont" :class="i.icon"></i>
             <div class="label" v-text="i.label"></div>
             <i class="iconfont icon-right"></i>
           </div>
         </div>
       </div>
-      <div class="nav-side" :class="{'open': ni.length !== 0}">
+      <div class="nav-side" :class="{'open': ni.length !== 0 && !NavTerminal}">
         <div class="content">
-          <div class="item" v-for="(i, index) in ni" :class="{'active': index === nindex}" @mouseenter="selectnav(index)">
+          <div class="item" v-for="(i, index) in ni" :class="{'active': index === nindex}" @mouseenter="selectnav(index)" @click="open(i)">
             <div class="seize"></div>
             <div class="label" v-text="i.label"></div>
-            <i class="iconfont icon-right"></i>
+            <i class="iconfont icon-right" v-if="!i.terminal"></i>
+          </div>
+        </div>
+      </div>
+      <div class="nav-side terminal" :class="{'open': ni.length !== 0 && NavTerminal}">
+        <div class="content">
+          <div class="item" v-for="(i, index) in ni" :class="{'active': index === nindex}" @mouseenter="selectnav(index)" @click="open(i)">
+            <div class="seize"></div>
+            <div class="label" v-text="i.label"></div>
+            <i class="iconfont icon-right" v-if="!i.terminal"></i>
           </div>
         </div>
       </div>
       <div class="terminal-side" :class="{'open': san.length !== 0, 'ready': ni.length !== 0}">
         <div class="content">
-          <div class="item" v-for="i in san">
+          <div class="item" v-for="i in san" @click="open(i)">
             <div class="seize"></div>
             <div class="label" v-text="i.label"></div>
           </div>
@@ -78,10 +92,13 @@
       </div>
     </div>
     <main>
-      <iframe src="https://www.baidu.com/" frameborder="0"></iframe>
+      <!-- <iframe src="${ROOT_INDEX}" frameborder="0" id="iframe"></iframe> -->
+      <iframe src="demo.html" frameborder="0" id="iframe"></iframe>
     </main>
+    <!-- <script>var json = ${functions}</script> -->
     <script src="libs/jquery.min.js"></script>
     <script src="libs/vue.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="libs/index.js"></script>
+    <script src="js/index.js"></script>
   </body>
 </html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <title>demo</title>
+    <link rel="stylesheet" href="libs/index.css">
+    <link rel="stylesheet" href="libs/iconfont.css">
+    <link rel="stylesheet" href="css/demo.css">
+  </head>
+
+  <body>
+    <main class="wrapper" id="demo">
+      <div class="top-bar">
+        <h5 class="title">用户管理</h5>
+      </div>
+      <div class="form search">
+        <label class="form-item">
+          <span>用户名：</span>
+          <el-input v-model="form.name" placeholder="请输入用户名"></el-input>
+        </label>
+        <label class="form-item">
+          <span>手机号：</span>
+          <el-input v-model="form.phone" placeholder="请输入手机号"></el-input>
+        </label>
+        <el-button size="mini" type="water">查询</el-button>
+      </div>
+      <div class="table-wrapper">
+        <el-table :data="tableData" style="width: 100%" header-row-class-name="table-header" stripe highlight-current-row="false">
+          <el-table-column type="selection" width="55" class-name="column-check"></el-table-column>
+          <el-table-column prop="date" label="日期" width="180"></el-table-column>
+          <el-table-column prop="name" label="姓名" width="180"></el-table-column>
+          <el-table-column prop="address" label="地址"></el-table-column>
+          <el-table-column fixed="right" label="操作" width="100" class-name="column-sousa">
+            <template slot-scope="scope">
+              <el-button @click="showDetail(scope.row)" type="text" size="small">查看</el-button>
+              <i>|</i>
+              <el-button type="text" size="small">编辑</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-pagination @size-change="sizeChange" @current-change="currentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 400]" :page-size="size" layout="total, sizes, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </div>
+    </main>
+    <script src="libs/vue.min.js"></script>
+    <script src="libs/index.js"></script>
+    <script src="js/demo.js"></script>
+  </body>
+</html>

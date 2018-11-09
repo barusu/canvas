@@ -22,6 +22,10 @@ header {
     // border-right: 1px solid hsla(0,0%,100%,.15);
     margin-right: 1px;
     cursor: pointer;
+    img {
+      width: 26px;
+      vertical-align: middle;
+    }
     &:hover {
       background-color: #191d21;
     }
@@ -102,12 +106,13 @@ header {
     .user-content-footer {
       height: 41px;
       border-top: 1px solid hsla(0,0%,100%,.1);
-      span {
+      a {
         display: block;
         color: #fff;
         text-align: center;
         font-size: 12px;
         line-height: 40px;
+        text-decoration: none;
         cursor: pointer;
         transition: color 0.3s;
         &:hover {
@@ -177,6 +182,7 @@ header {
   background: #252a2f;
   z-index: 9;
   transition: width 0.2s ease;
+  &.hover,
   &:hover {
     width: 230px;
   }
@@ -185,7 +191,7 @@ header {
     width: 100%;
     height: 100%;
     border-top: 1px solid hsla(0,0%,100%,.1);
-    border-right: 1px solid hsla(0,0%,100%,.1);
+    // border-right: 1px solid hsla(0,0%,100%,.1);
     background: inherit;
     overflow: hidden;
     z-index: 3;
@@ -200,18 +206,33 @@ header {
     width: 100%;
     max-width: 200px;
     border-top: 1px solid hsla(0,0%,100%,.1);
-    border-right: 1px solid hsla(0,0%,100%,.1);
+    border-left: 1px solid hsla(0,0%,100%,.1);
     box-shadow: -50px 0 #252a2f;
     background: inherit;
     overflow: hidden;
     z-index: 2;
-    transition: right 0.2s ease;
+    transition: all 0.2s ease;
     .content {
       width: 220px;
     }
     &.open {
       right: -200px;
       transition: right 0.2s ease .2s;
+    }
+    &.terminal {
+      background: #303538;
+      .content {
+        width: 270px;
+      }
+      .item .label {
+        width: 220px;
+      }
+      &.open {
+        width: 250px;
+        right: -250px;
+        max-width: 250px;
+        transition: right 0.2s ease .2s;
+      }
     }
   }
   .terminal-side {
@@ -220,11 +241,11 @@ header {
     height: 100%;
     width: 250px;
     border-top: 1px solid hsla(0,0%,100%,.1);
-    border-right: 1px solid hsla(0,0%,100%,.1);
+    // border-left: 1px solid hsla(0,0%,100%,.1);
     background: #303538;
     overflow: hidden;
     z-index: 1;
-    transition: right 0.2s ease;
+    transition: right 0.4s ease-in;
     visibility: hidden;
     .content {
       width: 270px;
@@ -233,13 +254,13 @@ header {
       width: 220px;
     }
     &.ready {
-      right: -200px;
+      // right: -200px;
       visibility: visible;
-      transition: right 0.2s ease .3s;
+      // transition: right 0.2s ease .3s;
     }
     &.open {
       right: -450px;
-      transition: right 0.2s ease .1s;
+      transition: right 0.4s ease .1s;
     }
   }
   .item {
@@ -251,9 +272,10 @@ header {
     .iconfont {
       display: inline-block;
       float: left;
-      line-height: 40px;
-      font-size: 16px;
       width: 50px;
+      height: 40px;
+      font-size: 16px;
+      line-height: 40px;
       text-align: center;
       transition: color .2s;
     }
@@ -291,6 +313,14 @@ header {
         color: #00c1de;
       }
     }
+    &.select {
+      background: #00c1de;
+      .icon-right,
+      .label,
+      .iconfont {
+        color: #fff;
+      }
+    }
   }
 }
 main {
@@ -300,6 +330,7 @@ main {
   overflow: hidden;
   overflow-y: auto;
   transition: left 0.2s ease;
+  font-size: 0;
   iframe {
     width: 100%;
     min-height: 100%;
@@ -319,3 +350,67 @@ main {
 .iconfont {
   font-size: inherit;
 }
+// element
+.el-notification.right {
+  right: 6px;
+}
+.el-notification {
+  border-radius: 4px;
+  width: 305px;
+  padding: 8px 24px 8px 10px;
+}
+.el-notification__closeBtn {
+  top: 8px;
+  right: 10px;
+}
+.el-notification__icon {
+  float: left;
+  margin: 6px 0;
+}
+.el-notification__group {
+  margin-left: 10px;
+}
+.el-notification__title {
+  font-weight: 500;
+  font-size: 14px;
+}
+.el-notification__content {
+  font-size: 12px;
+  p {
+    line-height: 1.5;
+    word-break: break-word;
+  }
+}
+.el-message {
+  min-width: 140px;
+  padding: 10px;
+  background: #fff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  i.icon-loading {
+    margin-right: 7px;
+    padding-top: 1px;
+    color: #00c1e0;
+    animation: oo-spin 2s infinite linear;
+  }
+}
+.el-message__closeBtn {
+  right: 10px;
+}
+.el-message__icon {
+  margin-right: 7px;
+}
+.el-message-loading p {
+  color: #62656a;
+  word-break: break-word;
+}
+@keyframes oo-spin {
+  from {transform: rotateZ(0deg);}
+  to   {transform: rotateZ(360deg);}
+}
+
+
+
+
+
+

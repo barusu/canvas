@@ -1,0 +1,1 @@
+{"version":3,"sources":["ali/script/dict.js"],"names":["window","Vue","el","data","Dict"],"mappings":"aAQGA,OAPU,IAAIC,IAAI,CADpBC,GAAA,QACCC,KAAIC,GAEFD,QAFiB","file":"dict.js","sourcesContent":["(function(scope) {\n  var Dict = new Vue({\n    el: '#dict',\n    data: {\n    },\n    methods: {\n    }\n  });\n})(window);"]}
