@@ -1,0 +1,221 @@
+.o-transfer * {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box; }
+
+.o-transfer p {
+  margin: 0; }
+
+.o-transfer input, .o-transfer textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  outline: none;
+  border: 0;
+  margin: 0;
+  padding: 0; }
+
+.o-transfer::after {
+  content: "";
+  display: table;
+  clear: both;
+  float: none;
+  *zoom: 1; }
+
+.o-transfer .transfer-panel {
+  float: left;
+  display: block;
+  width: 240px;
+  height: 320px;
+  border: 1px solid #ebeef5;
+  border-radius: 4px;
+  background-color: #fff; }
+
+.o-transfer .tab-head {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #f5f7fa;
+  border-radius: 4px 4px 0 0; }
+  .o-transfer .tab-head .tab-item {
+    width: 25%;
+    text-align: center;
+    padding: 3px .5em 0;
+    font-size: 14px;
+    line-height: 2;
+    color: #444;
+    cursor: pointer; }
+    .o-transfer .tab-head .tab-item.select {
+      color: #409eff; }
+    .o-transfer .tab-head .tab-item span {
+      position: relative; }
+      .o-transfer .tab-head .tab-item span::after {
+        content: attr(data-num);
+        position: absolute;
+        top: -.5em;
+        right: -1.1em;
+        min-width: 1.5em;
+        font-size: 12px;
+        background-color: rgba(52, 200, 73, 0.6);
+        color: #fff;
+        border-radius: 50%;
+        line-height: 1.5;
+        text-align: center;
+        -webkit-transform: scale(0.7);
+            -ms-transform: scale(0.7);
+                transform: scale(0.7); }
+  .o-transfer .tab-head .search {
+    width: 185px;
+    margin: 6px 5px 5px;
+    padding: 0 .5em;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 12px;
+    line-height: 1.5; }
+    .o-transfer .tab-head .search.error {
+      border-color: #fd6461; }
+    .o-transfer .tab-head .search.success {
+      border-color: #34c849; }
+  .o-transfer .tab-head button {
+    display: inline-block;
+    border: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    height: 20px;
+    border-radius: 2px;
+    background-color: #409eff;
+    color: #fff;
+    cursor: pointer; }
+    .o-transfer .tab-head button.disable {
+      -webkit-filter: grayscale(1);
+              filter: grayscale(1);
+      cursor: not-allowed; }
+
+.o-transfer .tab-bar {
+  width: 25%;
+  height: 1px;
+  background: #34c849;
+  -webkit-transition: margin .34s;
+  transition: margin .34s; }
+  .o-transfer .tab-bar.seq1 {
+    margin-left: 25%; }
+  .o-transfer .tab-bar.seq2 {
+    margin-left: 50%; }
+  .o-transfer .tab-bar.seq3 {
+    margin-left: 75%; }
+
+.o-transfer .tab-content {
+  height: 286px;
+  overflow: hidden; }
+  .o-transfer .tab-content .body-wrapper {
+    width: 400%;
+    height: 100%;
+    -webkit-transform: translate(0%);
+        -ms-transform: translate(0%);
+            transform: translate(0%);
+    -webkit-transition: -webkit-transform .34s;
+    transition: -webkit-transform .34s;
+    transition: transform .34s;
+    transition: transform .34s, -webkit-transform .34s; }
+    .o-transfer .tab-content .body-wrapper.seq1 {
+      -webkit-transform: translate(-25%);
+          -ms-transform: translate(-25%);
+              transform: translate(-25%); }
+    .o-transfer .tab-content .body-wrapper.seq2 {
+      -webkit-transform: translate(-50%);
+          -ms-transform: translate(-50%);
+              transform: translate(-50%); }
+    .o-transfer .tab-content .body-wrapper.seq3 {
+      -webkit-transform: translate(-75%);
+          -ms-transform: translate(-75%);
+              transform: translate(-75%); }
+  .o-transfer .tab-content .body {
+    float: left;
+    width: 25%;
+    height: 100%;
+    overflow: hidden; }
+  .o-transfer .tab-content .content {
+    width: 260px;
+    height: 100%;
+    padding-right: 20px;
+    overflow-x: hidden;
+    overflow-y: scroll; }
+  .o-transfer .tab-content .item {
+    position: relative;
+    font-size: 12px;
+    line-height: 2;
+    padding: 0 1em;
+    margin-bottom: 1px;
+    color: #555;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    cursor: pointer;
+    -webkit-transition: background .2s;
+    transition: background .2s; }
+    .o-transfer .tab-content .item.select {
+      background-color: rgba(40, 202, 64, 0.1);
+      color: #409eff; }
+    .o-transfer .tab-content .item i {
+      position: absolute;
+      top: 0;
+      line-height: 2em;
+      right: .5em;
+      width: 2em;
+      text-align: center;
+      color: #fff;
+      -webkit-transition: color .2s;
+      transition: color .2s; }
+      .o-transfer .tab-content .item i.el-icon-star-on {
+        color: #fc605d; }
+      .o-transfer .tab-content .item i.el-icon-star-off {
+        color: #aaa; }
+  .o-transfer .tab-content .del .user,
+  .o-transfer .tab-content .del .dept {
+    border-top: 1px solid #f5f5f5;
+    margin: 0; }
+    .o-transfer .tab-content .del .user:hover,
+    .o-transfer .tab-content .del .dept:hover {
+      background-color: rgba(252, 96, 93, 0.1); }
+      .o-transfer .tab-content .del .user:hover i,
+      .o-transfer .tab-content .del .dept:hover i {
+        color: #fc605d; }
+  .o-transfer .tab-content .del .duty {
+    border-top: 1px solid #f5f5f5;
+    cursor: default; }
+    .o-transfer .tab-content .del .duty .select {
+      -webkit-transition: all .2s;
+      transition: all .2s; }
+      .o-transfer .tab-content .del .duty .select:hover {
+        background-color: #fd6461;
+        border-color: #fd6461; }
+  .o-transfer .tab-content .del .item:first-child {
+    border: 0; }
+  .o-transfer .tab-content .dutys .item {
+    cursor: default; }
+    .o-transfer .tab-content .dutys .item:nth-child(even) {
+      background: #f5f5f5; }
+  .o-transfer .tab-content .dutys .cup:hover {
+    color: #409eff; }
+  .o-transfer .tab-content .min-tag {
+    line-height: 1.5; }
+    .o-transfer .tab-content .min-tag span {
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 0 3px;
+      margin: 0 3px 3px 0;
+      cursor: pointer; }
+      .o-transfer .tab-content .min-tag span.select {
+        border-color: #409eff;
+        background-color: #409eff;
+        color: #fff; }
+
+.o-transfer .cup {
+  cursor: pointer; }
