@@ -1,8 +1,25 @@
 @import './libs/base';
 
 $sc: #51baf2;
+#app {
+  padding-top: 1em 0;
+}
 .tags {
-  padding: 1em;
+  float: left;
+  width: 100%;
+  padding: 0 1em;
+  .title {
+    float: left;
+    display: block;
+    width: 3em;
+    margin: .5em;
+    line-height: 2;
+    border: 1px solid transparent;
+    text-align: right;
+  }
+  .content {
+    overflow: hidden;
+  }
   .tag {
     display: inline-block;
     margin: .5em;
@@ -23,6 +40,7 @@ $sc: #51baf2;
 .persons {
   padding: 1em;
   font-size: 12px;
+  overflow: hidden;
   .person {
     display: inline-block;
     margin: .5em;

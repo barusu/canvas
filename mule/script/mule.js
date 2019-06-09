@@ -117,8 +117,14 @@ var App = new Vue({
   },
   computed: {
     Persons() {
+      var lv = 0, lvMap = { '新手': 2, '资深干员': 5, '高级资深干员': 6};
+      this.spTags.forEach(i => {
+        if(i.select) lv = lvMap[i.txt];
+      });
       return this.persons.filter(i => {
-        return this.tags.every(t => (!t.select || i.tags.some(it => it == t.txt)));
+        if(lv && i.level != lv) return false;
+        if(!lv && i.level === 6) return false;
+        return this.tags.every(t => (!t.select || i.tags.some(it => it == t.txt))) && this.stanceTags.every(s => (!s.select || i.stance == s.txt)) && this.sexTags.every(s => (!s.select || i.sex == s.txt)) && this.occupationTags.every(o => (!o.select || i.occupation == o.txt));
       });
     }
   }
