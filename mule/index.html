@@ -12,27 +12,27 @@
       <div class="tags">
         <div class="title">职业</div>
         <div class="content">
-          <div class="tag" :class="{'select': i.select}" @click="i.select = !i.select" v-for="i in occupationTags" v-text="i.txt"></div>
+          <div class="tag" :class="{'select': i.select}" @click="selectOccupation(i)" v-for="i in occupationTags" v-text="i.txt"></div>
         </div>
       </div>
       <div class="tags" style="width: 300px">
         <div class="title">资历</div>
         <div class="content">
-          <div class="tag" :class="{'select': i.select}" @click="i.select = !i.select" v-for="i in spTags" v-text="i.txt">
+          <div class="tag" :class="{'select': i.select}" @click="selectSp(i)" v-for="i in spTags" v-text="i.txt">
           </div>
         </div>
       </div>
       <div class="tags" style="width: 150px">
         <div class="title">性别</div>
         <div class="content">
-          <div class="tag" :class="{'select': i.select}" @click="i.select = !i.select" v-for="i in sexTags"
+          <div class="tag" :class="{'select': i.select}" @click="selectSex(i)" v-for="i in sexTags"
             v-text="i.txt"></div>
         </div>
       </div>
       <div class="tags" style="width: 200px">
         <div class="title">位置</div>
         <div class="content">
-          <div class="tag" :class="{'select': i.select}" @click="i.select = !i.select" v-for="i in stanceTags" v-text="i.txt">
+          <div class="tag" :class="{'select': i.select}" @click="selectStance(i)" v-for="i in stanceTags" v-text="i.txt">
           </div>
         </div>
       </div>

@@ -99,7 +99,7 @@ var App = new Vue({
       { sex: '男', occupation: '狙击', stance: '远程位', level: 3, name: '安德切尔', img: '', tags: ['输出'] },
       { sex: '女', occupation: '先锋', stance: '近战位', level: 3, name: '翎羽', img: '', tags: ['输出', '费用回复'] },
       { sex: '女', occupation: '先锋', stance: '近战位', level: 3, name: '香草', img: '', tags: ['费用回复'] },
-      { sex: '男', occupation: '先锋', stance: '近战位', level: 3, name: '芬', img: '', tags: ['费用回复'] },
+      { sex: '女', occupation: '先锋', stance: '近战位', level: 3, name: '芬', img: '', tags: ['费用回复'] },
       { sex: '女', occupation: '近卫', stance: '近战位', level: 3, name: '玫兰莎', img: '', tags: ['输出', '生存'] },
       { sex: '女', occupation: '狙击', stance: '远程位', level: 3, name: '克洛丝', img: '', tags: ['输出'] },
       { sex: '女', occupation: '重装', stance: '近战位', level: 3, name: '米格鲁', img: '', tags: ['防护'] },
@@ -110,10 +110,36 @@ var App = new Vue({
       { sex: '男', occupation: '重装', stance: '近战位', level: 2, name: '黑角', img: '', tags: [] },
       { sex: '男', occupation: '术师', stance: '远程位', level: 2, name: '12F', img: '', tags: [] },
       { sex: '女', occupation: '术师', stance: '远程位', level: 2, name: '杜林', img: '', tags: [] },
-      { sex: '男', occupation: '先锋', stance: '近战位', level: 2, name: '夜刀', img: '', tags: [] },
+      { sex: '女', occupation: '先锋', stance: '近战位', level: 2, name: '夜刀', img: '', tags: [] },
       { sex: '男', occupation: '近卫', stance: '近战位', level: 1, name: 'Castle-3', img: '', tags: ['支援'] },
       { sex: '女', occupation: '医疗', stance: '远程位', level: 1, name: 'Lancet-2', img: '', tags: ['治疗'] },
-    ]
+    ],
+    sex: null,
+    occupation: null,
+    stance: null,
+    sp: null,
+  },
+  methods: {
+    selectSex(i) {
+      if(this.sex && this.sex != i) this.sex.select = false;
+      this.sex = i;
+      i.select = !i.select;
+    },
+    selectOccupation(i) {
+      if (this.occupation && this.occupation != i) this.occupation.select = false;
+      this.occupation = i;
+      i.select = !i.select;
+    },
+    selectSp(i) {
+      if (this.sp && this.sp != i) this.sp.select = false;
+      this.sp = i;
+      i.select = !i.select;
+    },
+    selectStance(i) {
+      if (this.stance && this.stance != i) this.stance.select = false;
+      this.stance = i;
+      i.select = !i.select;
+    }
   },
   computed: {
     Persons() {
@@ -124,7 +150,9 @@ var App = new Vue({
       return this.persons.filter(i => {
         if(lv && i.level != lv) return false;
         if(!lv && i.level === 6) return false;
-        return this.tags.every(t => (!t.select || i.tags.some(it => it == t.txt))) && this.stanceTags.every(s => (!s.select || i.stance == s.txt)) && this.sexTags.every(s => (!s.select || i.sex == s.txt)) && this.occupationTags.every(o => (!o.select || i.occupation == o.txt));
+        if (this.stance && this.stance.select && i.stance != this.stance.txt) return false;
+        if (this.sex && this.sex.select && i.sex != this.sex.txt) return false;
+        return this.tags.every(t => (!t.select || i.tags.some(it => it == t.txt))) && this.occupationTags.every(o => (!o.select || i.occupation == o.txt));
       });
     }
   }
