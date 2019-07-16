@@ -106,7 +106,13 @@
                 "id": 6,
                 "name": "尼古拉斯"
               }
-            ]
+            ],
+            "display": {
+              "depts": true,
+              "dutys": true,
+              "groups": true,
+              "users": true
+            }
           },
           testValue: null
         },
@@ -119,6 +125,7 @@
           },
           change() {
             console.log('change');
+            this.getValue();
           },
           getValue() {
             this.testValue = this.$refs.transfer.Value;

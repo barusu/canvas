@@ -4,21 +4,21 @@ Vue.component('o-transfer', {
   <div class="o-transfer">
     <div class="transfer-panel">
       <div class="tab-head">
-        <div class="tab-item" :class="{'select': tabID === 0}" @click="tabID = 0">
+        <div class="tab-item" :class="{'select': tabID === 0}" @click="tabID = 0" v-if="display.depts">
           <span :data-num="SDepts.length">部门</span>
         </div>
-        <div class="tab-item" :class="{'select': tabID === 1}" @click="tabID = 1">
+        <div class="tab-item" :class="{'select': tabID === 1}" @click="tabID = 1" v-if="display.dutys">
           <span :data-num="SDutys.length">职务</span>
         </div>
-        <div class="tab-item" :class="{'select': tabID === 2}" @click="tabID = 2">
+        <div class="tab-item" :class="{'select': tabID === 2}" @click="tabID = 2" v-if="display.groups">
           <span>群组</span>
         </div>
-        <div class="tab-item" :class="{'select': tabID === 3}" @click="tabID = 3">
+        <div class="tab-item" :class="{'select': tabID === 3}" @click="tabID = 3" v-if="display.users">
           <span :data-num="SUsers.length">用户</span>
         </div>
       </div>
-      <div class="tab-bar" :class="'seq' + tabID"></div>
-      <div class="tab-content" :data-key="Value.depts.length">
+      <div class="tab-bar" :class="'seq' + TrueTabID"></div>
+      <div class="tab-content">
         <div class="body-wrapper" :class="'seq' + tabID">
           <!-- 部门列表 -->
           <div class="body">
@@ -54,10 +54,19 @@ Vue.component('o-transfer', {
         </div>
       </div>
     </div>
+    <slot><slot/>
     <div class="transfer-panel">
       <!-- 搜索框（添加额外人员） -->
       <div class="tab-head">
-        <input type="text" class="search" v-model="key" :class="{'error': key && !user, 'success': key && user}" @keyup.enter="addUser">
+        <div class="search-select">
+          <input type="text" class="search" v-model="key" :class="{'error': key && !user, 'success': key && user}" @keyup.enter="addUser">
+          <div class="search-content">
+            <div class="item" v-for="i in list" @click="selectUser(i)">
+              <span v-text="i.name" class="name"></span>
+              <span v-text="i.dept"></span>
+            </div>
+          </div>
+        </div>
         <button type="button" :class="{'disable': !user}" @click="addUser">添加</button>
       </div>
       <div class="tab-content">
@@ -87,25 +96,43 @@ Vue.component('o-transfer', {
   props: ['data', 'value'],
   data() {
     return {
-      tabID: 0,
+      tabID: -1,
+      selectValue: null,
       key: '',
       depts: [],
       dutys: [],
       groups: [],
       users: [],
       usersID: [],
-      user: null
+      user: null,
+      list: [],
+      display: {
+        "depts": true,
+        "dutys": true,
+        "groups": true,
+        "users": true
+      }
     };
   },
   watch: {
     data: 'update',
-    key: 'search'
+    key: 'search',
+    dutys: {
+      handler: 'updateValue',
+      deep: true
+    }
   },
   methods: {
+    selectUser(i) {
+      this.user = i;
+      this.list = [];
+    },
     search() {
       this.$emit('search', this.key, data => {
-        if(data.status) this.user = data.user;
-        else this.user = null;
+        if(data.status && data.users) {
+          if(data.users.length === 1) this.user = data.users[0];
+          if(data.users.length >= 1) this.list = data.users;
+        }else this.user = null;
       });
     },
     follow(i, status) {
@@ -127,6 +154,20 @@ Vue.component('o-transfer', {
       }
     },
     update() {
+      if(this.data.display) {
+        for(var i in this.display) {
+          if(this.data.display[i] === false) this.display[i] = false;
+          else this.display[i] = true;
+        }
+      }
+      const map = ["depts", "dutys", "groups", "users"];
+      map.some((i, index) => {
+        if(this.display[i]) {
+          this.tabID = index;
+          return true;
+        }
+        return false;
+      });
       this.depts = this.data.depts.map(i => {
         return {
           select: false,
@@ -208,16 +249,44 @@ Vue.component('o-transfer', {
     toggleUser(i) {
       if(i.select) this.cancelUser(i.id);
       else this.usersID.push(i.id);
+    },
+    updateValue() {
+      clearTimeout(this._st);
+      this._st = setTimeout(() => {
+        this.selectValue = {
+          "depts": this.SDepts.map(i => ({id: i.id, name: i.name})),
+          "dutys": this.SDutys.map(i => {
+            return {
+              id: i.id,
+              name: i.name,
+              depts: i.depts.filter(d => d.select).map(d => ({id: d.id, name: d.name, tid: d.tid}))
+            };
+          }),
+          "users": this.SUsers.map(i => ({id: i.id, name: i.name}))
+        };
+        this.$emit('change');
+      }, 242);
     }
   },
   computed: {
+    TrueTabID() {
+      var t = this.tabID;
+      const map = ["depts", "dutys", "groups", "users"];
+      for(var i = 0; i <= this.tabID; i++) {
+        if(this.display[map[i]] === false) t--;
+      }
+      return t;
+    },
     SDepts() {
+      this.updateValue();
       return this.depts.filter(i => i.select);
     },
     SDutys() {
+      this.updateValue();
       return this.dutys.filter(i => i.depts.some(d => d.select));
     },
     SUsers() {
+      this.updateValue();
       var t = this.usersID;
       this.groups.forEach(i => {
         i.select && (t = t.concat(i.users));
@@ -239,19 +308,7 @@ Vue.component('o-transfer', {
       });
     },
     Value() {
-      var tem = {
-        "depts": this.SDepts.map(i => ({id: i.id, name: i.name})),
-        "dutys": this.SDutys.map(i => {
-          return {
-            id: i.id,
-            name: i.name,
-            depts: i.depts.filter(d => d.select).map(d => ({id: d.id, name: d.name, tid: d.tid}))
-          };
-        }),
-        "users": this.SUsers.map(i => ({id: i.id, name: i.name}))
-      };
-      this.$emit('change');
-      return tem;
+      return this.selectValue;
     }
   },
   mounted() {

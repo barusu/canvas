@@ -66,6 +66,32 @@
         }
       }
     }
+    .search-select {
+      position: relative;
+    }
+    .search-content {
+      position: absolute;
+      top: 30px; left: 5px;
+      width: 185px;
+      z-index: 1;
+      background: #fff;
+      box-shadow: 1px 1px 3px #bbb;
+      .item {
+        padding: 0 0 0 .5em;
+        line-height: 1.5;
+        color: #999;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+        span {
+          font-size: 12px;
+        }
+        .name {
+          color: #444;
+        }
+      }
+    }
     .search {
       width: 185px;
       margin: 6px 5px 5px;
@@ -90,6 +116,7 @@
       border-radius: 2px;
       background-color: #409eff;
       color: #fff;
+      outline: none;
       cursor: pointer;
       &.disable {
         filter: grayscale(1);

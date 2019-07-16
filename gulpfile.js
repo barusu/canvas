@@ -12,7 +12,9 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     babel = require('gulp-babel'),
     base64 = require('gulp-base64');
-var rootpath = '**/layout/';
+// var rootpath = '**/2018-11-21/';
+// var rootpath = '**/ali/';
+var rootpath = '**/demo/';
 
 gulp.task('sass', function() {
   return gulp.src(rootpath + 'scss/!(_)*.scss')
@@ -20,10 +22,12 @@ gulp.task('sass', function() {
     .pipe(sass({ style: 'expanded' }))
     .pipe(autoprefixer({browsers:['last 2 version', 'safari 5', 'ie 9', 'opera 12.1', 'ios 6', 'android 4']}))
     .pipe(base64({extensions: ['png'], maxImageSize: 20480, debug: false}))
-    .pipe(cssnano())
     .pipe(rename(function (path) {
       path.dirname = path.dirname.replace('/scss', '/css');
     }))
+    .pipe(gulp.dest(''))
+    .pipe(cssnano())
+    .pipe(rename({suffix: '.min'}))
     .pipe(map.write('/'))
     .pipe(gulp.dest(''))
     .pipe(notify({ message: 'Styles task complete' }));
@@ -33,10 +37,12 @@ gulp.task('script', function() {
   return gulp.src(rootpath + 'script/!(_)*.js')
     .pipe(map.init())
     .pipe(babel({ presets: ['es2015']}))
-    .pipe(uglify())
     .pipe(rename(function (path) {
       path.dirname = path.dirname.replace('/script', '/js');
     }))
+    .pipe(gulp.dest(''))
+    .pipe(uglify())
+    .pipe(rename({suffix: '.min'}))
     .pipe(map.write('/'))
     .pipe(gulp.dest(''))
     .pipe(notify({ message: 'Scripts task complete' }));
