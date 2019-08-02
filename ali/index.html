@@ -7,7 +7,7 @@
   <head>
     <meta charset=utf-8>
     <meta name=viewport content="width=device-width,initial-scale=1">
-    <title>建达智云平台</title>
+    <title>建达数据平台</title>
     <link rel="stylesheet" href="libs/index.css">
     <link rel="stylesheet" href="libs/iconfont.css">
     <link rel="stylesheet" href="css/style.css">
@@ -17,7 +17,7 @@
     <input type="checkbox" id="sidebar_control">
     <header id="header">
       <label for="sidebar_control" class="logo"><img src="./images/logo_new.png" alt=""></label>
-      <div class="title">建达智云平台</div>
+      <div class="title">建达数据平台</div>
       <div class="user-box" @mouseleave="user_switch = false" :class="{'open': user_switch}">
         <div class="user-image">
           <div class="img" style="background-image: url(./images/zero.jpg);" @mouseenter="user_switch = true"></div>
@@ -57,7 +57,7 @@
     <div class="sidebar" :class="{'hover': open}" id="sidebar" @mouseleave="close" @mousemove="opensidebar">
       <div class="main-side">
         <div class="content">
-          <div class="item" :class="{'active': index === mindex, 'select': index === acmindex}" v-for="(i, index) in ich" @mouseenter="selectmain(index)" @click="open(i)">
+          <div class="item" :class="{'active': index === mindex, 'select': index === acmindex}" v-for="(i, index) in ich" @mouseenter="selectmain(index)" @click="openPage(i)">
             <i class="iconfont" :class="i.icon"></i>
             <div class="label" v-text="i.label"></div>
             <i class="iconfont icon-right"></i>
@@ -66,7 +66,7 @@
       </div>
       <div class="nav-side" :class="{'open': ni.length !== 0 && !NavTerminal}">
         <div class="content">
-          <div class="item" v-for="(i, index) in ni" :class="{'active': index === nindex}" @mouseenter="selectnav(index)" @click="open(i)">
+          <div class="item" v-for="(i, index) in ni" :class="{'active': index === nindex}" @mouseenter="selectnav(index)" @click="openPage(i)">
             <div class="seize"></div>
             <div class="label" v-text="i.label"></div>
             <i class="iconfont icon-right" v-if="!i.terminal"></i>
@@ -75,7 +75,7 @@
       </div>
       <div class="nav-side terminal" :class="{'open': ni.length !== 0 && NavTerminal}">
         <div class="content">
-          <div class="item" v-for="(i, index) in ni" :class="{'active': index === nindex}" @mouseenter="selectnav(index)" @click="open(i)">
+          <div class="item" v-for="(i, index) in ni" :class="{'active': index === nindex}" @mouseenter="selectnav(index)" @click="openPage(i)">
             <div class="seize"></div>
             <div class="label" v-text="i.label"></div>
             <i class="iconfont icon-right" v-if="!i.terminal"></i>
@@ -84,7 +84,7 @@
       </div>
       <div class="terminal-side" :class="{'open': san.length !== 0, 'ready': ni.length !== 0}">
         <div class="content">
-          <div class="item" v-for="i in san" @click="open(i)">
+          <div class="item" v-for="i in san" @click="openPage(i)">
             <div class="seize"></div>
             <div class="label" v-text="i.label"></div>
           </div>
@@ -93,7 +93,7 @@
     </div>
     <main>
       <!-- <iframe src="${ROOT_INDEX}" frameborder="0" id="iframe"></iframe> -->
-      <iframe src="demo.html" frameborder="0" id="iframe"></iframe>
+      <iframe src="appadd.html" frameborder="0" id="iframe"></iframe>
     </main>
     <!-- <script>var json = ${functions}</script> -->
     <script src="libs/jquery.min.js"></script>

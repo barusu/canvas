@@ -1,2 +1,160 @@
-"use strict";var _typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(i){return typeof i}:function(i){return i&&"function"==typeof Symbol&&i.constructor===Symbol&&i!==Symbol.prototype?"symbol":typeof i};!function(i){function t(i){var n=[],o=i.map(function(i){return{id:i.id,icon:i.icon,label:i.name,action:i.url,parentId:i.parentId}});return o.forEach(function(i){i.parentId||(!function n(t){var i=o.filter(function(i){return i.parentId==t.id});if(i&&i.length){var e=t.terminal=!1;return i.forEach(function(i){n(i)&&(e=!0)}),t.children=i,t.ismenu=e,!0}return!(t.terminal=!0)}(i),n.push(i))}),n}new Vue({el:"#sidebar",data:{ich:[],open:!1,mindex:-1,nindex:-1,acmindex:-1},methods:{loadData:function(){var n=this;i.json&&Array.isArray(i.json)?this.ich=t(i.json):$.get(" https://easy-mock.com/mock/59a8fa924006183e48efd0e3/demo/nav",function(i){n.ich=t(i)},"json")},selectmain:function(i){this.mindex=i,this.nindex=-1},selectnav:function(i){this.nindex=i},opensidebar:function(){this._timeout&&(clearTimeout(this._timeout),this._timeout=null),this.open=!0},closesidebar:function(){this.mindex=-1,this.nindex=-1,this.open=!1,this._timeout=null},close:function(){this._timeout&&clearTimeout(this._timeout),this._timeout=setTimeout(this.closesidebar,500)},open:function(i){if(i.action){this.acmindex=this.mindex,this.close();var n=document.getElementById("iframe");n&&(n.src=i.action)}}},computed:{ni:function(){return-1!==this.mindex&&this.ich[this.mindex]&&Array.isArray(this.ich[this.mindex].children)?this.ich[this.mindex].children:[]},san:function(){return-1!==this.nindex&&this.ni[this.nindex]&&Array.isArray(this.ni[this.nindex].children)?this.ni[this.nindex].children:[]},NavTerminal:function(){return!(-1===this.mindex||!this.ich[this.mindex]||this.ich[this.mindex].ismenu)}},mounted:function(){this.loadData()}});var n=new Vue({el:"#header",data:{user_switch:!1},methods:{notify:function(i){return i.offset||(i.offset=40),0!==i.duration&&(i.showClose=!1),this.$notify(i)},message:function(i){return(void 0===i?"undefined":_typeof(i))===_typeof("x")&&(i={message:i}),0!==i.duration||"showClose"in i||(i.showClose=!0),"loading"==i.type&&(i.customClass="el-message-loading",i.iconClass="iconfont icon-loading",i.duration=0,i.showClose=!1),this.$message(i)}}});i.App=n}(window);
-//# sourceMappingURL=index.js.map
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/**
+ * Ali
+ * 2018-11-01
+ */
+(function (scope) {
+  // var json = null;
+  function assembleTree(data) {
+    var t = [];
+    var list = data.map(function (i) {
+      return {
+        id: i.id,
+        icon: i.icon,
+        label: i.name,
+        action: i.url,
+        parentId: i.parentId
+      };
+    });
+
+    function findChild(i) {
+      var c = list.filter(function (c) {
+        return c.parentId == i.id;
+      });
+      if (c && c.length) {
+        i.terminal = false;
+        var f = false;
+        c.forEach(function (ci) {
+          var cf = findChild(ci);
+          if (cf) f = true;
+        });
+        i.children = c;
+        i.ismenu = f;
+        return true;
+      }
+      i.terminal = true;
+      return false;
+    }
+
+    list.forEach(function (i) {
+      if (!i.parentId) {
+        findChild(i);
+        t.push(i);
+      }
+    });
+    return t;
+  }
+  var store = {};
+  var Sidebar = new Vue({
+    el: '#sidebar',
+    data: {
+      ich: [],
+      open: false,
+      mindex: -1,
+      nindex: -1,
+      acmindex: -1
+    },
+    methods: {
+      loadData: function loadData() {
+        var _this = this;
+
+        if (scope.json && Array.isArray(scope.json)) {
+          this.ich = assembleTree(scope.json);
+        } else {
+          $.get(' https://easy-mock.com/mock/59a8fa924006183e48efd0e3/demo/nav', function (data) {
+            _this.ich = assembleTree(data);
+          }, 'json');
+        }
+      },
+      selectmain: function selectmain(index) {
+        this.mindex = index;
+        this.nindex = -1;
+      },
+      selectnav: function selectnav(index) {
+        this.nindex = index;
+      },
+      opensidebar: function opensidebar() {
+        if (this._timeout) {
+          clearTimeout(this._timeout);
+          this._timeout = null;
+        }
+        this.open = true;
+      },
+      closesidebar: function closesidebar() {
+        this.mindex = -1;
+        this.nindex = -1;
+        this.open = false;
+        this._timeout = null;
+      },
+      close: function close() {
+        if (this._timeout) clearTimeout(this._timeout);
+        this._timeout = setTimeout(this.closesidebar, 500);
+      },
+      openPage: function openPage(i) {
+        if (i.action) {
+          this.acmindex = this.mindex;
+          this.closesidebar();
+          var f = document.getElementById('iframe');
+          if (f) f.src = i.action;
+        }
+      }
+    },
+    computed: {
+      ni: function ni() {
+        if (this.mindex !== -1 && this.ich[this.mindex]) {
+          if (Array.isArray(this.ich[this.mindex].children)) {
+            return this.ich[this.mindex].children;
+          } else {
+            return [];
+          }
+        }
+        return [];
+      },
+      san: function san() {
+        if (this.nindex !== -1 && this.ni[this.nindex]) {
+          if (Array.isArray(this.ni[this.nindex].children)) {
+            return this.ni[this.nindex].children;
+          } else {
+            return [];
+          }
+        }
+        return [];
+      },
+      NavTerminal: function NavTerminal() {
+        if (this.mindex !== -1 && this.ich[this.mindex] && !this.ich[this.mindex].ismenu) return true;
+        return false;
+      }
+    },
+    mounted: function mounted() {
+      this.loadData();
+    }
+  });
+  var Header = new Vue({
+    el: '#header',
+    data: {
+      user_switch: false
+    },
+    methods: {
+      notify: function notify(option) {
+        if (!option.offset) option.offset = 40;
+        if (option.duration !== 0) option.showClose = false;
+        return this.$notify(option);
+      },
+      message: function message(option) {
+        if ((typeof option === 'undefined' ? 'undefined' : _typeof(option)) === _typeof('x')) option = { message: option };
+        if (option.duration === 0 && !('showClose' in option)) option.showClose = true;
+        if (option.type == 'loading') {
+          option.customClass = 'el-message-loading';
+          option.iconClass = "iconfont icon-loading";
+          option.duration = 0;
+          option.showClose = false;
+        }
+        return this.$message(option);
+      }
+    }
+  });
+  scope.App = Header;
+})(window);

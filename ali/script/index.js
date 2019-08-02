@@ -85,10 +85,10 @@
         if(this._timeout) clearTimeout(this._timeout);
         this._timeout = setTimeout(this.closesidebar, 500);
       },
-      open(i) {
+      openPage(i) {
         if(i.action) {
           this.acmindex = this.mindex;
-          this.close();
+          this.closesidebar();
           var f = document.getElementById('iframe');
           if(f) f.src = i.action;
         }

@@ -19,11 +19,11 @@ header {
     line-height: 50px;
     text-align: center;
     color: #fff;
-    // border-right: 1px solid hsla(0,0%,100%,.15);
+    border-right: 1px solid hsla(0,0%,100%,.15);
     margin-right: 1px;
     cursor: pointer;
     img {
-      width: 26px;
+      width: 17px;
       vertical-align: middle;
     }
     &:hover {
@@ -34,11 +34,21 @@ header {
     float: left;
     line-height: 50px;
     padding: 0 12px;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 600;
     vertical-align: top;
     color: #fff;
     cursor: default;
     user-select: none;
+    > label {
+      display: inline-block;
+      line-height: 50px;
+      margin-right: 10px;
+      img {
+        width: 18px;
+        vertical-align: sub;
+      }
+    }
     &:hover {
       background-color: #191d21;
     }
@@ -403,6 +413,32 @@ main {
 .el-message-loading p {
   color: #62656a;
   word-break: break-word;
+}
+.el-message-box {
+  border-radius: 2px;
+  .el-button {
+    font-weight: 400;
+    padding: 7px 2em;
+    border-radius: 0;
+    transition: background .3s;
+    vertical-align: top;
+    &.el-button--default {
+      background: #ddd;
+      &:hover {
+        background: #eee;
+        color: #666;
+        border-color: transparent;
+      }
+    }
+    &.el-button--primary {
+      background: #409eff;
+      &:hover {
+        background: #66b1ff;
+        color: #fff;
+        border-color: #66b1ff;
+      }
+    }
+  }
 }
 @keyframes oo-spin {
   from {transform: rotateZ(0deg);}

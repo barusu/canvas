@@ -14,6 +14,86 @@
       <div class="top-bar">
         <h5 class="title">字典管理</h5>
       </div>
+      <div class="dict-wrapper clearfix">
+        <div class="dict-type">
+          <div class="content">
+            <div class="header">
+              <span class="title">字典类型</span>
+              <div class="search">
+                <label class="form-item">
+                  <el-input v-model="dictTypeSearch" placeholder="请输入名称或代码" prefix-icon="el-icon-search"></el-input>
+                </label>
+                <el-button type="water" size="mini">添加</el-button>
+              </div>
+            </div>
+            <div class="body">
+              <el-table :data="DictTypeList" style="width: 100%" header-row-class-name="table-header" stripe highlight-current-row="false" height="420">
+                <el-table-column prop="name" label="名称" width="120"></el-table-column>
+                <el-table-column prop="code" label="代码"></el-table-column>
+                <el-table-column fixed="right" label="操作" width="55" class-name="column-sousa">
+                  <template slot-scope="scope">
+                    <el-button @click="deleteType(scope.row)" type="danger" plain size="small">删除</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </div>
+        </div>
+        <div class="dict-item">
+          <div class="content">
+            <div class="header">
+              <span class="title">字典项</span>
+              <div class="search">
+                <label class="form-item">
+                  <el-input v-model="dictItemSearch" placeholder="请输入名称或代码" prefix-icon="el-icon-search"></el-input>
+                </label>
+              </div>
+            </div>
+            <div class="body">
+              <el-table :data="DictItemList" style="width: 100%" header-row-class-name="table-header" stripe highlight-current-row="false" height="420">
+                <el-table-column prop="name" label="名称" width="120"></el-table-column>
+                <el-table-column prop="code" label="代码"></el-table-column>
+                <el-table-column fixed="right" label="操作" width="55" class-name="column-sousa">
+                  <template slot-scope="scope">
+                    <el-button @click="deleteItem(scope.row)" type="danger" plain size="small">删除</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </div>
+        </div>
+        <div class="item-detail">
+          <div class="content">
+            <div class="header">
+              <span class="title">字典项</span>
+            </div>
+            <div class="body">
+              <div class="form">
+                <label class="form-item">
+                  <span>名称：</span>
+                  <el-input v-model="dictItemSearch" placeholder="请输入名称"></el-input>
+                </label>
+                <label class="form-item">
+                  <span>代码：</span>
+                  <el-input v-model="dictItemSearch" placeholder="请输入代码"></el-input>
+                </label>
+                <label class="form-item">
+                  <span>备注：</span>
+                  <el-input v-model="dictItemSearch" placeholder="请输入备注"></el-input>
+                </label>
+                <label class="form-item">
+                  <span>序号：</span>
+                  <el-input v-model="dictItemSearch" placeholder="请输入序号"></el-input>
+                </label>
+              </div>
+              <div class="sousa">
+                <el-button size="mini" type="water">确定</el-button>
+                <el-button size="mini" plain>重置</el-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
     <script src="libs/vue.min.js"></script>
     <script src="libs/index.js"></script>

@@ -1,0 +1,365 @@
+<!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>后台登录-X-admin2.0</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,dictType-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href="libs/index.css">
+    <link rel="stylesheet" href="libs/iconfont.css">
+    <link rel="stylesheet" href="css/fixed.min.css">
+  </head>
+  <body>
+    <main class="wrapper" id="app_add" v-cloak>
+      <div class="top-bar">
+        <h5 class="title">添加</h5>
+        <div class="action">
+          <a href="${base}/metadata/applicationSystem/page.html"><el-button size="mini" plain>返回</el-button></a>
+        </div>
+      </div>
+      <div class="content">
+        <el-form ref="form" :rules="formRules" :model="form" @submit.native.prevent="" class="ali-form clearfix">
+          <el-form-item label="系统名称" required prop="name" class="half">
+            <el-input v-model="form.name" placeholder="请输入系统名称"></el-input>
+          </el-form-item>
+          <el-form-item label="所属部门" required prop="department_id" class="half">
+            <el-select v-model="form.department_id" placeholder="请选择所属部门">
+              <c:forEach items="${orgList}" varStatus="status" var="item">
+                <el-option key="${item.id}" label="${item.name}" value="${item.id}"></el-option>
+              </c:forEach>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="标识编码" required prop="code" class="half">
+            <el-input v-model="form.code" placeholder="请输入标识编码"></el-input>
+          </el-form-item>
+          <el-form-item label="标识编码" required prop="code" class="half">
+            <el-input v-model="form.code" placeholder="请输入标识编码"></el-input>
+          </el-form-item>
+          <el-form-item label="标识编码" required prop="code" class="quarter">
+            <el-input v-model="form.code" placeholder="请输入标识编码"></el-input>
+          </el-form-item>
+          <el-form-item label="标识编码" required prop="code" class="quarter">
+            <el-input v-model="form.code" placeholder="请输入标识编码"></el-input>
+          </el-form-item>
+          <el-form-item label="标识编码" required prop="code" class="quarter">
+            <el-input v-model="form.code" placeholder="请输入标识编码"></el-input>
+          </el-form-item>
+          <el-form-item label="标识编码" required prop="code" class="quarter">
+            <el-input v-model="form.code" placeholder="请输入标识编码"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+    </main>
+
+    <script src="libs/jquery.min.js"></script>
+    <script src="libs/vue.min.js"></script>
+    <script src="libs/index.js"></script>
+    <script src="js/appadd.js"></script>
+
+
+<div class="ant-body">
+  <div class="x-body">
+    <div class="layui-row">
+      <div class="layui-col-sm1" style="min-height:1px;">
+      </div>
+      <div class="layui-col-sm8">
+        <form class="layui-form">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>系统名称</label>
+            <div class="layui-input-block">
+              <input type="text" id="name" placeholder="请输入系统名称" name="name" lay-verify="required"
+                   autocomplete="off" class="layui-input" maxlength="50">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-inline">
+              <label class="layui-form-label"><span class="x-red">*</span>所属部门</label>
+              <div class="layui-input-block">
+                <select name="department_id" id="department_id" lay-search>
+                  <option value="">请选择所属部门</option>
+                  <c:forEach items="${orgList}" varStatus="status" var="item">
+                    <option value="${item.id}">${item.name}</option>
+                  </c:forEach>
+                </select>
+              </div>
+            </div>
+            <div class="layui-inline">
+              <label class="layui-form-label"><span class="x-red">*</span>标识编码</label>
+              <div class="layui-input-block">
+                <input type="text" id="code" placeholder="请输入标识编码" name="code" required
+                     lay-verify="required" maxlength="50"
+                     autocomplete="off" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-inline">
+              <label class="layui-form-label">使用范围</label>
+              <div class="layui-input-block">
+                <select name="useScope" id="useScope">
+                  <option value="">选择使用范围</option>
+                  <option :value="item.code" v-for="item in useScopeList"
+                      v-html="item.name"></option>
+                </select>
+              </div>
+            </div>
+            <div class="layui-inline">
+              <label class="layui-form-label">使用频率</label>
+              <div class="layui-input-block">
+                <input type="text" id="usageFrequency" placeholder="请输入使用频率,如“100~300”"
+                     name="usageFrequency"
+                     lay-verify="usageFrequency" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <div class="layui-inline">
+              <label class="layui-form-label">开发厂商</label>
+              <div class="layui-input-block">
+                <input type="text" id="developer" placeholder="请输入开发厂商" name="developer"
+                     lay-verify="" autocomplete="off" maxlength="50" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-inline">
+              <label class="layui-form-label">投资金额</label>
+              <div class="layui-input-block">
+                <input type="text" id="investmentAmount" placeholder="请输入投资金额" name="investmentAmount"
+                     lay-verify="number" autocomplete="off" maxlength="50" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-inline">
+              <label class="layui-form-label">建设状况</label>
+              <div class="layui-input-block">
+                <select name="constructionStatus" id="constructionStatus">
+                  <option value="">选择建设状况</option>
+                  <option :value="item.code" v-for="item in constructionStatusList"
+                      v-html="item.name"></option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-inline">
+              <label class="layui-form-label">维护费用</label>
+              <div class="layui-input-block">
+                <input type="text" id="maintenanceCosts" maxlength="50" placeholder="请输入维护费用"
+                     name="maintenanceCosts"  lay-verify="number"
+                     autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-inline">
+              <label class="layui-form-label">经费来源</label>
+              <div class="layui-input-block">
+                <select name="fundSource" id="fundSource">
+                  <option value="">选择经费来源</option>
+                  <option :value="item.code" v-for="item in fundSourceList"
+                      v-html="item.name"></option>
+                </select>
+              </div>
+            </div>
+            <div class="layui-inline">
+              <label class="layui-form-label">系统来源</label>
+              <div class="layui-input-block">
+                <select name="systemSource" id="systemSource">
+                  <option value="" selected>选择系统来源</option>
+                  <option :value="item.code" v-for="item in systemSourceList"
+                      v-html="item.name"></option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-inline">
+              <label class="layui-form-label">数据库类型</label>
+              <div class="layui-input-block">
+                <input type="text" id="databaseType" placeholder="请输入数据库类型" name="databaseType" required
+                     lay-verify="" autocomplete="off" maxlength="50" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-inline">
+              <label class="layui-form-label">数据库形式</label>
+              <div class="layui-input-block">
+                <input type="text" id="databaseForm" placeholder="请输入数据库形式" name="databaseForm" required
+                     lay-verify="" autocomplete="off" maxlength="50" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-inline">
+              <label class="layui-form-label">数据存储容量</label>
+              <div class="layui-input-block">
+                <input type="text" id="dataStorageCapacity" placeholder="请输入数据存储容量"
+                     name="dataStorageCapacity" required lay-verify=""
+                     autocomplete="off" maxlength="50" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-inline">
+              <label class="layui-form-label">服务地址</label>
+              <div class="layui-input-block">
+                <input type="text" id="serviceAddress" placeholder="请输入服务地址" name="serviceAddress"
+                     lay-verify="" autocomplete="off" maxlength="100" class="layui-input">
+              </div>
+            </div>
+
+            <div class="layui-inline">
+              <label class="layui-form-label">审批单位</label>
+              <div class="layui-input-block">
+                <input type="text" id="approvalUnit" placeholder="请输入审批单位" name="approvalUnit"
+                     lay-verify="" autocomplete="off" maxlength="50" class="layui-input">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="layui-form-item">
+
+            <div class="layui-inline">
+              <label class="layui-form-label">软件架构</label>
+              <div class="layui-input-block">
+                <select name="softwareArchitecture" id="softwareArchitecture">
+                  <option value="">选择软件架构</option>
+                  <option :value="item.code" v-for="item in softwareArchitectureList"
+                      v-html="item.name"></option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-inline">
+              <label class="layui-form-label">开始使用时间</label>
+              <div class="layui-input-block">
+                <input type="text" id="startDate" placeholder="yyyy-MM-dd" name="startDate"
+                     autocomplete="off" class="layui-input">
+              </div>
+            </div>
+
+
+          </div>
+          <div class="layui-form-item ">
+            <label class="layui-form-label">主要功能描述</label>
+            <div class="layui-input-block ">
+                <textarea name="majorDescription" maxlength="500" placeholder="请输入主要功能描述"
+                      class="layui-textarea "></textarea>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <button class="layui-btn" lay-filter="add" lay-submit="">保存</button>
+            <a href="${base}/metadata/applicationSystem/page.html"
+               class="layui-btn layui-btn-primary">取消</a>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="layui-col-sm3"></div>
+  </div>
+</div>
+<script>
+  // layui.use(['form', 'layer', 'laydate'], function () {
+  //   $ = layui.jquery;
+  //   var form = layui.form
+  //     , layer = layui.layer
+  //     , layerStartDate = layui.laydate;
+  //   layerStartDate.render({
+  //     elem: '#startDate' //指定元素
+  //   });
+
+  //   //自定义验证规则
+  //   form.verify({
+  //     usageFrequency: function (value) {
+  //       var reg = /([0-9]+)~([0-9]+)$/;
+  //       if (value.trim() != '') {
+  //         if (!reg.test(value)) {
+  //           return '例如：100~300';
+  //         }
+  //       }
+  //     },
+  //     number: function (value) {
+  //       var reg = /[0-9]+$/
+  //       if (value.trim() != '') {
+  //         if (!reg.test(value)) {
+  //           return '只允许输入数字';
+  //         }
+  //       }
+  //     }
+  //   });
+
+  //   //监听提交
+  //   form.on('submit(add)', function (data) {
+  //     layer.load();
+  //     $.ajax({
+  //       url: "${base}/metadata/applicationSystem/save.json",
+  //       type: "post",
+  //       data: $(".layui-form").serialize(),
+  //       dataType: "text",
+  //       contentType: "application/x-www-form-urlencoded; charset=utf-8",
+  //       success: function (data) {
+  //         layer.closeAll('loading');
+  //         top.App.notify({type: 'success', title: '操作提醒', message: data});
+  //         window.location.href = '${base}/metadata/applicationSystem/page.html';
+  //       },
+  //       error: function (XMLHttpRequest, textStatus, errorThrown) {
+  //         layer.closeAll('loading');
+  //         top.App.notify({
+  //           type: 'error',
+  //           title: '操作提醒',
+  //           message: JSON.parse(XMLHttpRequest.responseText).message
+  //         });
+
+  //       }
+  //     });
+  //     return false;
+  //   });
+  // });
+
+  var v_app = new Vue({
+    el: '.ant-body',
+    data: {
+      fundSourceList: [],
+      systemSourceList: [],
+      useScopeList: [],
+      softwareArchitectureList: [],
+      constructionStatusList: [],
+    },
+    methods: {
+      initSelect: function () {
+        var that = this;
+        that.fundSourceList = that.getDictByDictTypeCode('sourcesOfFunding');
+        that.systemSourceList = that.getDictByDictTypeCode('systemSource');
+        that.useScopeList = that.getDictByDictTypeCode('scopeOfUse');
+        that.softwareArchitectureList = that.getDictByDictTypeCode('softwareArchitecture');
+        that.constructionStatusList = that.getDictByDictTypeCode('constructionStatus');
+      },
+      getDictByDictTypeCode(code) {
+        var res = [];
+        $.ajax({
+          url: '${base}/dict/getByDictTypeCode.json',
+          type: 'get',
+          dataType: 'json',
+          async: false,
+          data: {
+            'code': code
+          },
+          success: function (json) {
+            res = json;
+          },
+          error: function () {
+          }
+        });
+        return res;
+      }
+    },
+    created: function () {
+      this.initSelect();
+    }
+  });
+</script>
+</body>
+</html>

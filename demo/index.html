@@ -16,9 +16,12 @@
       <!-- ref: 自定义组件名称 使用[this.$refs.名称.Value]获取选中的数据集 -->
       <!-- data: 待选数据 value: 初始选中的数据(在data修改之后设置没有效果,需再次修改data或调用组件的defaultSelect方法) -->
       <!-- search: 搜索事件 [param1: 关键字  param2: 回调函数] -->
-      <o-transfer ref="transfer" :data="testData" :value="value" @search="search" @follow="follow" @change="change"></o-transfer>
+      <o-transfer ref="transfer" :data="testData" :value="value" @search="search" @follow="follow" @change="change"
+        :disabled="disabled" :disableadd="disablesearch" :size="[300, 400]"></o-transfer>
       <div>
-        <button type="button"  @click="getValue">获取数据</button>
+        <button type="button" @click="disabled = !disabled">禁用/取消</button>
+        <button type="button" @click="disablesearch = !disablesearch">禁用/取消搜索</button>
+        <button type="button" @click="getValue">获取数据</button>
         <pre v-text="testValue"></pre>
       </div>
     </div>
@@ -29,92 +32,96 @@
       const host = 'https://easy-mock.com/mock/5ce21a974546ce6ad9bd3aca/';
       new Vue({
         el: "#app",
-        data: {
-          testData: {
-            "isAll": false,
-            "depts": [],
-            "dutys": [],
-            "groups": [],
-            "users": []
-          },
-          value: {
-            "depts": [
-              {
-                "id": 5,
-                "name": "陈杰"
+        data() {
+          return {
+            testData: {
+              isAll: false,
+              depts: [],
+              dutys: [],
+              groups: [],
+              users: []
+            },
+            value: {
+              'depts': [
+                {
+                  'id': 5,
+                  'name': '陈杰'
+                }
+              ],
+              'dutys': [
+                {
+                  'id': 1,
+                  'name': '邵秀兰',
+                  'depts': [
+                    {
+                      'id': 2,
+                      'name': '熊秀兰',
+                      'tid': 'Jones'
+                    }
+                  ]
+                },
+                {
+                  'id': 2,
+                  'name': '范涛',
+                  'depts': [
+                    {
+                      'id': 1,
+                      'name': '赵芳',
+                      'tid': 'Williams'
+                    },
+                    {
+                      'id': 2,
+                      'name': '邱强',
+                      'tid': 'Walker'
+                    },
+                    {
+                      'id': 3,
+                      'name': '石娟',
+                      'tid': 'Moore'
+                    }
+                  ]
+                },
+                {
+                  'id': 3,
+                  'name': '黄军',
+                  'depts': [
+                    {
+                      'id': 3,
+                      'name': '贺涛',
+                      'tid': 'Harris'
+                    }
+                  ]
+                }
+              ],
+              'users': [
+                {
+                  'id': 1,
+                  'name': '张三'
+                },
+                {
+                  'id': 2,
+                  'name': '赵四'
+                },
+                {
+                  'id': 3,
+                  'name': '王五'
+                },
+                {
+                  'id': 6,
+                  'name': '尼古拉斯'
+                }
+              ],
+              'display': {
+                'depts': true,
+                'dutys': true,
+                'groups': true,
+                'users': true
               }
-            ],
-            "dutys": [
-              {
-                "id": 1,
-                "name": "邵秀兰",
-                "depts": [
-                  {
-                    "id": 2,
-                    "name": "熊秀兰",
-                    "tid": "Jones"
-                  }
-                ]
-              },
-              {
-                "id": 2,
-                "name": "范涛",
-                "depts": [
-                  {
-                    "id": 1,
-                    "name": "赵芳",
-                    "tid": "Williams"
-                  },
-                  {
-                    "id": 2,
-                    "name": "邱强",
-                    "tid": "Walker"
-                  },
-                  {
-                    "id": 3,
-                    "name": "石娟",
-                    "tid": "Moore"
-                  }
-                ]
-              },
-              {
-                "id": 3,
-                "name": "黄军",
-                "depts": [
-                  {
-                    "id": 3,
-                    "name": "贺涛",
-                    "tid": "Harris"
-                  }
-                ]
-              }
-            ],
-            "users": [
-              {
-                "id": 1,
-                "name": "张三"
-              },
-              {
-                "id": 2,
-                "name": "赵四"
-              },
-              {
-                "id": 3,
-                "name": "王五"
-              },
-              {
-                "id": 6,
-                "name": "尼古拉斯"
-              }
-            ],
-            "display": {
-              "depts": true,
-              "dutys": true,
-              "groups": true,
-              "users": true
-            }
-          },
-          testValue: null
+            },
+            testValue: null,
+            disablesearch: false,
+            disabled: false
+          };
         },
         methods: {
           search(key, callback) {
@@ -124,7 +131,6 @@
             $.get(host + 'cms-rest/manager/follow', data, callback);
           },
           change() {
-            console.log('change');
             this.getValue();
           },
           getValue() {

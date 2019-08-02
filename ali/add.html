@@ -1,0 +1,174 @@
+<!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> -->
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="UTF-8">
+    <title>后台登录-X-admin2.0</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="stylesheet" href="libs/index.css">
+    <link rel="stylesheet" href="libs/iconfont.css">
+    <link rel="stylesheet" href="css/fixed.css">
+    <link rel="stylesheet" href="css/add.css">
+  </head>
+  <body>
+    <main class="wrapper" id="add">
+      <div class="top-bar">
+        <h5 class="title">资源添加</h5>
+      </div>
+      <div class="content">
+        <div class="steps-wrapper">
+          <el-steps :active="step" finish-status="success" process-status="finish" direction="vertical">
+            <el-step title="资源信息填写"></el-step>
+            <el-step title="资源字段填写"></el-step>
+          </el-steps>
+        </div>
+        <div class="body" v-show="step == 0">
+          <el-form ref="form" :rules="resourceRules" :model="resource" @submit.native.prevent="" class="ali-form">
+            <el-form-item label="资源名称" required prop="chineseName">
+              <el-input v-model="resource.chineseName" placeholder="请输入资源名称"></el-input>
+            </el-form-item>
+            <el-form-item label="资源英文名" required prop="englishName">
+              <el-input v-model="resource.englishName" placeholder="请输入资源英文名"></el-input>
+            </el-form-item>
+            <el-form-item label="资源摘要">
+              <el-input type="textarea" :rows="5" placeholder="请输入资源摘要" v-model="resource.description"></el-input>
+            </el-form-item>
+            <el-form-item label="所属系统" required prop="applicationSystem_id">
+              <el-select v-model="resource.applicationSystem_id" placeholder="请选择所属系统">
+                <el-option v-for="item in applicationSystems" :key="item.id" :label="item.name" :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="对接方式" required prop="abutments">
+              <el-select v-model="resource.abutments"  placeholder="请选择对接方式">
+                <el-option  v-for="item in abutments" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="存量规模" required prop="amount">
+              <el-select v-model="resource.amount"  placeholder="请选择存量规模">
+                <el-option v-for="item in amounts" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="更新频率" required prop="renewFrequency">
+              <el-select v-model="resource.renewFrequency" placeholder="请选择更新频率">
+                <el-option v-for="item in renewFrequencys" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="更新频率理由">
+              <el-input type="textarea" :rows="2" placeholder="请输入更新频率理由" v-model="resource.renewFrequencyReason"></el-input>
+            </el-form-item>
+            <el-form-item label="备注">
+              <el-input type="textarea" :rows="5" placeholder="请输入备注" v-model="resource.remark"></el-input>
+            </el-form-item>
+            <div class="sousa">
+              <el-button size="mini" type="water" @click="next('form')">下一步</el-button>
+              <el-button size="mini" plain>取消</el-button>
+            </div>
+          </el-form>
+        </div>
+        <div class="body" v-show="step == 1">
+          <div class="sousa top-btn">
+            <el-button size="mini" type="water" @click="dialogFormVisible = true">添加数据字段</el-button>
+          </div>
+          <div class="table-wrapper">
+            <el-table :data="dataIndexs" style="width: 100%" header-row-class-name="table-header" stripe highlight-current-row="false">
+              <el-table-column prop="chineseName" label="中文名称" width="140" :formatter="cknull"></el-table-column>
+              <el-table-column prop="englishName" label="英文名称" width="140" :formatter="ckunique"></el-table-column>
+              <el-table-column prop="openProperty" label="开放属性" width="65"></el-table-column>
+              <el-table-column prop="shareProperty" label="共享程度" width="80"></el-table-column>
+              <el-table-column prop="symbols" label="数源标志" width="65"></el-table-column>
+              <el-table-column prop="type" label="数据类型" width="95" :formatter="cknull"></el-table-column>
+              <el-table-column prop="length" label="长度" width="60"></el-table-column>
+              <el-table-column label="允许为空" width="70">
+                <template slot-scope="scope"><span v-text="boolmap[scope.row.allowSpace]"></span></template>
+              </el-table-column>
+              <el-table-column prop="defaultValue" label="默认值"></el-table-column>
+              <el-table-column label="主键" width="50">
+                <template slot-scope="scope"><span v-text="boolmap[scope.row.isKey]"></span></span></template>
+              </el-table-column>
+              <el-table-column prop="remarks" label="备注"></el-table-column>
+              <el-table-column fixed="right" label="操作" width="100" class-name="column-sousa">
+                <template slot-scope="scope">
+                  <el-button @click="edit(scope)" type="text" size="small">修改</el-button>
+                  <i>|</i>
+                  <el-button @click="deleterow(scope)" type="text" size="small">删除</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+          <div class="sousa">
+            <el-button size="mini" type="water" @click="next('form')">保存</el-button>
+            <el-button size="mini" plain @click="pre">上一步</el-button>
+            <el-button size="mini" plain>取消</el-button>
+          </div>
+        </div>
+      </div>
+      <el-dialog title="新增数据字段" :visible.sync="dialogFormVisible">
+        <el-form :model="dataindex" ref="dialogform" :rules="dataindexRules" class="ali-form">
+          <el-form-item label="中文名" required prop="chineseName">
+            <el-input v-model="dataindex.chineseName" placeholder="请输入数据字段中文名称"></el-input>
+          </el-form-item>
+          <el-form-item label="英文名" required prop="englishName">
+            <el-input v-model="dataindex.englishName" placeholder="请输入数据字段英文名称"></el-input>
+          </el-form-item>
+          <el-form-item label="开放属性">
+            <el-radio-group v-model="dataindex.openProperty">
+              <el-radio label="开放"></el-radio>
+              <el-radio label="不开放"></el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="共享程度">
+            <el-radio-group v-model="dataindex.shareProperty">
+              <el-radio label="无条件共享"></el-radio>
+              <el-radio label="有条件共享"></el-radio>
+              <el-radio label="不予共享"></el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="数据类型" required prop="type">
+            <el-select v-model="dataindex.type" placeholder="请选择数据类型">
+              <el-option v-for="item in IndexType" :label="item.name" :value="item.value"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="长度" required prop="length">
+            <el-input v-model="ilength"></el-input>
+          </el-form-item>
+          <el-form-item label="数据格式">
+            <el-input v-model="dataFormat" :readonly="true"></el-input>
+          </el-form-item>
+          <el-form-item label="默认值">
+            <el-input v-model="dataindex.defaultValue"></el-input>
+          </el-form-item>
+          <el-form-item label="主键">
+            <el-switch v-model="isKey"></el-switch>
+          </el-form-item>
+          <el-form-item label="为空">
+            <el-switch v-model="allowSpace"></el-switch>
+          </el-form-item>
+          <el-form-item label="数源标志">
+            <el-switch v-model="symbols"></el-switch>
+          </el-form-item>
+          <el-form-item label="备注">
+            <el-input type="textarea" v-model="dataindex.remarks"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button size="mini" type="water" @click="addindex">保存并添加下一个</el-button>
+        </div>
+      </el-dialog>
+    </main>
+
+    <script src="libs/jquery.min.js"></script>
+    <script src="libs/vue.min.js"></script>
+    <script src="libs/index.js"></script>
+    <script src="js/add.js"></script>
+  </body>
+</html>

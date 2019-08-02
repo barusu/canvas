@@ -2,6 +2,11 @@
   -webkit-box-sizing: border-box;
           box-sizing: border-box; }
 
+.o-transfer.disabled {
+  -webkit-filter: grayscale(1);
+          filter: grayscale(1);
+  pointer-events: none; }
+
 .o-transfer p {
   margin: 0; }
 
@@ -24,7 +29,7 @@
 .o-transfer .transfer-panel {
   float: left;
   display: block;
-  width: 240px;
+  min-width: 240px;
   height: 320px;
   border: 1px solid #ebeef5;
   border-radius: 4px;
@@ -42,6 +47,12 @@
           align-items: center;
   background-color: #f5f7fa;
   border-radius: 4px 4px 0 0; }
+  .o-transfer .tab-head.disabled {
+    -webkit-filter: grayscale(1);
+            filter: grayscale(1);
+    cursor: not-allowed; }
+    .o-transfer .tab-head.disabled * {
+      pointer-events: none; }
   .o-transfer .tab-head .tab-item {
     width: 25%;
     text-align: center;
@@ -69,29 +80,6 @@
         -webkit-transform: scale(0.7);
             -ms-transform: scale(0.7);
                 transform: scale(0.7); }
-  .o-transfer .tab-head .search-select {
-    position: relative; }
-  .o-transfer .tab-head .search-content {
-    position: absolute;
-    top: 30px;
-    left: 5px;
-    width: 185px;
-    z-index: 1;
-    background: #fff;
-    -webkit-box-shadow: 1px 1px 3px #bbb;
-            box-shadow: 1px 1px 3px #bbb; }
-    .o-transfer .tab-head .search-content .item {
-      padding: 0 0 0 .5em;
-      line-height: 1.5;
-      color: #999;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      cursor: pointer; }
-      .o-transfer .tab-head .search-content .item span {
-        font-size: 12px; }
-      .o-transfer .tab-head .search-content .item .name {
-        color: #444; }
   .o-transfer .tab-head .search {
     width: 185px;
     margin: 6px 5px 5px;
@@ -164,7 +152,7 @@
     height: 100%;
     overflow: hidden; }
   .o-transfer .tab-content .content {
-    width: 260px;
+    min-width: 260px;
     height: 100%;
     padding-right: 20px;
     overflow-x: hidden;
@@ -186,6 +174,7 @@
     .o-transfer .tab-content .item.select {
       background-color: rgba(40, 202, 64, 0.1);
       color: #409eff; }
+    .o-transfer .tab-content .item svg.del,
     .o-transfer .tab-content .item i {
       position: absolute;
       top: 0;
@@ -196,35 +185,36 @@
       color: #fff;
       -webkit-transition: color .2s;
       transition: color .2s; }
+      .o-transfer .tab-content .item svg.del.el-icon-star-on,
       .o-transfer .tab-content .item i.el-icon-star-on {
         color: #fc605d; }
+      .o-transfer .tab-content .item svg.del.el-icon-star-off,
       .o-transfer .tab-content .item i.el-icon-star-off {
         color: #aaa; }
+    .o-transfer .tab-content .item svg.del {
+      top: 4px;
+      fill: #fff; }
+  .o-transfer .tab-content .del .duty,
   .o-transfer .tab-content .del .user,
   .o-transfer .tab-content .del .dept {
     border-top: 1px solid #f5f5f5;
     margin: 0; }
+    .o-transfer .tab-content .del .duty:hover,
     .o-transfer .tab-content .del .user:hover,
     .o-transfer .tab-content .del .dept:hover {
       background-color: rgba(252, 96, 93, 0.1); }
+      .o-transfer .tab-content .del .duty:hover i,
       .o-transfer .tab-content .del .user:hover i,
       .o-transfer .tab-content .del .dept:hover i {
         color: #fc605d; }
-  .o-transfer .tab-content .del .duty {
-    border-top: 1px solid #f5f5f5;
-    cursor: default; }
-    .o-transfer .tab-content .del .duty .select {
-      -webkit-transition: all .2s;
-      transition: all .2s; }
-      .o-transfer .tab-content .del .duty .select:hover {
-        background-color: #fd6461;
-        border-color: #fd6461; }
+      .o-transfer .tab-content .del .duty:hover svg.del,
+      .o-transfer .tab-content .del .user:hover svg.del,
+      .o-transfer .tab-content .del .dept:hover svg.del {
+        fill: #fc605d; }
   .o-transfer .tab-content .del .item:first-child {
     border: 0; }
   .o-transfer .tab-content .dutys .item {
     cursor: default; }
-    .o-transfer .tab-content .dutys .item:nth-child(even) {
-      background: #f5f5f5; }
   .o-transfer .tab-content .dutys .cup:hover {
     color: #409eff; }
   .o-transfer .tab-content .min-tag {
@@ -243,3 +233,19 @@
 
 .o-transfer .cup {
   cursor: pointer; }
+
+.xc-tree .arrow {
+  display: inline-block;
+  width: 10px;
+  -webkit-transition: -webkit-transform .34s;
+  transition: -webkit-transform .34s;
+  transition: transform .34s;
+  transition: transform .34s, -webkit-transform .34s;
+  vertical-align: middle; }
+  .xc-tree .arrow.open {
+    -webkit-transform: rotate(90deg) translate(0px, 0px);
+        -ms-transform: rotate(90deg) translate(0px, 0px);
+            transform: rotate(90deg) translate(0px, 0px); }
+
+.xc-tree svg {
+  fill: #444; }
