@@ -2,7 +2,7 @@
 <html lang="zh-Hans">
 <head>
   <meta charset="UTF-8">
-  <title>模板1</title>
+  <title>图鉴</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link rel="stylesheet" href="./reset.css">
   <style>
@@ -14,6 +14,11 @@
     }
     *, :after, :before {
       box-sizing: border-box;
+    }
+    header {
+      width: 100%;
+      text-align: right;
+      margin-bottom: 10px;
     }
     main {
       display: flex;
@@ -224,8 +229,13 @@
   </style>
 </head>
 <body>
-  <header></header>
   <main id="app" v-cloak>
+    <header>
+      <label class="checkbox">
+        <input type="checkbox" class="kakushi control-ck" v-model="nosleep">
+        <span class="ck"></span>
+      </label>
+    </header>
     <div class="card" v-for="i in all" :key="i.name" :class="{'overdue': i.date[month] == 0, 'wait': i.time[hour - 1] == 0}">
       <div class="head">
         <span class="seq" v-text="'No.' + i.id"></span>
@@ -257,6 +267,7 @@
     </div>
   </main>
   <script src="http://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+  <script src="./ns.js"></script>
   <script>
     const insect = [
       ["1", "白粉蝶 モンシロチョウ", "160", "北半球：9月～6月南半球：3月～12月", "4时～19时", "花", "雨雪天气不出"],
@@ -424,6 +435,7 @@
     ];
   </script>
   <script>
+    var noSleep = new NoSleep();
     var App = new Vue({
       el: '#app',
       data: {
@@ -432,7 +444,17 @@
         fish: [],
         month: -1,
         hour: 0,
-        t: null
+        t: null,
+        nosleep: false
+      },
+      watch: {
+        nosleep: function() {
+          if(this.nosleep) {
+            noSleep.enable();
+          }else {
+            noSleep.disable();
+          }
+        }
       },
       methods: {
         init() {
