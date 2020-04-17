@@ -560,8 +560,8 @@
           clearTimeout(this.t);
           var n = new Date();
           this.month = n.getMonth();
-          // this.hour = n.getHours();
-          this.hour = 19;
+          this.hour = n.getHours();
+          // this.hour = 19;
           this.poi = (this.hour * 60 + n.getMinutes()) / 14.4;
           this.t = setTimeout(this.update, (60 - n.getSeconds()) * 1000);
           this.refresh();
