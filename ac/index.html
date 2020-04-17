@@ -591,6 +591,7 @@
           this.all = this.all.filter(i => {
             if(i.date[this.month] == 0) return false;
             if(i.obtained && i.price < 2000) return false;
+            if(i.obtained && i.time[this.hour] == 0) return false;
             return true;
           });
           this.all.sort((a, b) => {
