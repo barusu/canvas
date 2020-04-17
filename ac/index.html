@@ -88,26 +88,28 @@
       display: flex;
       flex-flow: row wrap;
       margin: 5px;
-      width: 7em;
+      width: 5em;
       float: left;
     }
     .content {
       overflow: hidden;
     }
     .date span {
-      width: 33%;
+      width: 30%;
       flex-grow: 1;
       color: #fff;
       text-align: center;
       background: #ccc;
-      border: 1px solid #f4e8b8;
-      border-radius: 4px;
+      /* border: 1px solid #f4e8b8; */
+      border-radius: 2px;
+      margin: 0 1px 1px 0;
     }
     .date .ac {
       background: #51baf2;
     }
     .date .now {
-      border-color: #fd6461;
+      box-shadow: inset 0 0 1px 1px #fd6461;
+      /* color: #fd6461; */
     }
     .time {
       display: flex;
@@ -131,7 +133,6 @@
     .time span:nth-child(9)::after { content: '8'; }
     .time span:nth-child(13)::after { content: '12'; }
     .time span:nth-child(19)::after { content: '18'; }
-    .time span:nth-child(20)::after { content: '19'; }
     .time span:nth-child(22)::after { content: '21'; }
     .time span:nth-child(6),
     .time span:nth-child(9),
@@ -144,7 +145,7 @@
     .time .ac {
       background: hsla(201,86%,63%,.8);
     }
-    .time .now::after {
+    .time .now::before {
       content: "";
       position: absolute;
       top: 0; left: 50%;
@@ -236,18 +237,18 @@
         <span class="ck"></span>
       </label>
     </header>
-    <div class="card" v-for="i in all" :key="i.name" :class="{'overdue': i.date[month] == 0, 'wait': i.time[hour - 1] == 0}">
+    <div class="card" v-for="i in all" :key="i.name" :class="{'overdue': i.date[month] == 0, 'wait': i.time[hour] == 0}">
       <div class="head">
         <span class="seq" v-text="'No.' + i.id"></span>
         <span class="name" v-text="i.name"></span>
         <label class="checkbox">
-          <input type="checkbox" class="kakushi control-ck" v-model="i.obtained">
+          <input type="checkbox" class="kakushi control-ck" v-model="i.obtained" @change="save">
           <span class="ck"></span>
         </label>
       </div>
       <div>
         <div class="date">
-          <span v-for="(m, index) in i.date" v-text="index + 1 + '月'" :class="{'ac': m, 'now': index === month}"></span>
+          <span v-for="(m, index) in i.date" v-text="index + 1" :class="{'ac': m, 'now': index === month}"></span>
         </div>
         <div class="content">
           <div class="img">
@@ -262,7 +263,7 @@
         <div class="clear"></div>
       </div>
       <div class="time">
-        <span :class="{'ac': t, 'now': index === hour - 1}" v-for="(t, index) in i.time"></span>
+        <span :class="{'ac': t, 'now': index === hour}" v-for="(t, index) in i.time"></span>
       </div>
     </div>
   </main>
@@ -273,7 +274,7 @@
       ["1", "白粉蝶 モンシロチョウ", "160", "北半球：9月～6月南半球：3月～12月", "4时～19时", "花", "雨雪天气不出"],
       ["2", "斑缘点粉蝶 モンキチョウ", "160", "北半球：3月～6月、9月～10月南半球：9月～12月、3月～4月", "4时～19时", "花", "雨雪天气不出"],
       ["3", "凤蝶 アゲハチョウ", "240", "北半球：3月～9月南半球：9月～3月", "4时～19时", "空中", "雨雪天气不出"],
-      ["4", "乌鸦凤蝶 カラスアゲハ", "2500", "北半球：3月～6月南半球：9月～12月", "4时～19时", "花(青・黒・紫)", "雨雪天气不出"],
+      ["4", "乌鸦凤蝶 カラスアゲハ", "2500", "北半球：3月～6月南半球：9月～12月", "4时～19时", "花(青&黒&紫)", "雨雪天气不出"],
       ["5", "青带凤蝶 アオスジアゲハ", "300", "北半球：4月～8月南半球：10月～2月", "4时～19时", "空中", "雨雪天气不出"],
       ["6", "大白斑蝶 オオゴマダラ", "1000", "北半球：1年中南半球：1年中", "8时～19时", "空中", "雨雪天气不出"],
       ["7", "大紫蛱蝶 オオムラサキ", "3000", "北半球：5月～8月南半球：11月～2月", "4时～19时", "树", "　"],
@@ -292,7 +293,7 @@
       ["20", "蟋蟀 コオロギ", "130", "北半球：9月～11月南半球：3月～5月", "17时～8时", "草地", "雨雪天气不出"],
       ["21", "玲虫 スズムシ", "430", "北半球：9月～10月南半球：3月～4月", "17时～8时", "草地", "雨雪天气不出"],
       ["22", "螳螂 カマキリ", "430", "北半球：3月～11月南半球：9月～5月", "8时～17时", "花", "雨雪天气不出"],
-      ["23", "兰花螳螂 ハナカマキリ", "2400", "北半球：3月～11月南半球：9月～5月", "8时～17时", "花(白い花・スズラン)", "雨雪天气不出"],
+      ["23", "兰花螳螂 ハナカマキリ", "2400", "北半球：3月～11月南半球：9月～5月", "8时～17时", "花(白花&铃兰)", "雨雪天气不出"],
       ["24", "蜜蜂 ミツバチ", "200", "北半球：3月～7月南半球：9月～1月", "8时～17时", "花", "雨雪天气不出"],
       ["25", "黄蜂 ハチ", "2500", "北半球：1年中南半球：1年中", "24时間", "空中", "　"],
       ["26", "油蝉 アブラゼミ", "250", "北半球：7月～8月南半球：1月～2月", "8时～17时", "树(椰子树除外)", "　"],
@@ -308,8 +309,8 @@
       ["36", "萤火虫 ホタル", "300", "北半球：6月南半球：12月", "19时～4时", "水辺(海以外)", "雨雪天气不出"],
       ["37", "蝼蛄 オケラ", "500", "北半球：11月～5月南半球：5月～11月", "24时間", "地下(有声音的地方挖掘)", "　"],
       ["38", "水黾 アメンボ", "130", "北半球：5月～9月南半球：11月～3月", "8时～19时", "水塘", "雨雪天气不出"],
-      ["39", "龙虱 ゲンゴロウ", "800", "北半球：5月～9月南半球：11月～3月", "8时～19时", "河流・水塘", "　"],
-      ["40", "田鳖 タガメ", "2000", "北半球：4月～9月南半球：10月～3月", "19时～8时", "河流・水塘", "　"],
+      ["39", "龙虱 ゲンゴロウ", "800", "北半球：5月～9月南半球：11月～3月", "8时～19时", "河流&水塘", "　"],
+      ["40", "田鳖 タガメ", "2000", "北半球：4月～9月南半球：10月～3月", "19时～8时", "河流&水塘", "　"],
       ["41", "椿象 カメムシ", "120", "北半球：3月～10月南半球：9月～4月", "24时間", "花", "　"],
       ["42", "人面椿象 ジンメンカメムシ", "1000", "北半球：3月～10月南半球：9月～4月", "19时～8时", "花", "　"],
       ["43", "瓢虫 テントウムシ", "200", "北半球：3月～6月、10月南半球：9月～12月、4月", "8时～17时", "花", "雨雪天气不出"],
@@ -348,8 +349,8 @@
       ["76", "鼠妇 ダンゴムシ", "250", "北半球：9月～6月南半球：3月～12月", "23时～16时", "岩石(敲它)", "　"],
       ["77", "蜈蚣 ムカデ", "300", "北半球：9月～6月南半球：3月～12月", "16时～23时", "岩石(敲它)", "　"],
       ["78", "蜘蛛 クモ", "600", "北半球：1年中南半球：1年中", "19时～8时", "树(揺它)", "　"],
-      ["79", "狼蛛 タランチュラ", "8000", "北半球：11月～4月南半球：5月～10月", "19时～4时", "草地・地面", "雨雪天气不出"],
-      ["80", "蝎子 サソリ", "8000", "北半球：5月～10月南半球：11月～4月", "19时～4时", "草地・地面", "雨雪天气不出"]
+      ["79", "狼蛛 タランチュラ", "8000", "北半球：11月～4月南半球：5月～10月", "19时～4时", "草地&地面", "雨雪天气不出"],
+      ["80", "蝎子 サソリ", "8000", "北半球：5月～10月南半球：11月～4月", "19时～4时", "草地&地面", "雨雪天气不出"]
     ];
     const fish = [
       ["1", "红目鲫 タナゴ", "900", "北半球：11月～3月南半球：5月～9月", "24时間", "河流", "超小"],
@@ -444,6 +445,7 @@
         fish: [],
         month: -1,
         hour: 0,
+        poi: 0,
         t: null,
         nosleep: false
       },
@@ -483,9 +485,9 @@
               }else {
                 m[0] -= 0;
                 m[1] -= 0;
-                if(isNaN(m[1])) m[1] = m[0];
+                if(isNaN(m[1])) m[1] = m[0] + 1;
                 if(m[1] < m[0]) m[1] += 24;
-                while(m[0] <= m[1]) {
+                while(m[0] < m[1]) {
                   time[m[0] % 24] = 1;
                   m[0] += 1;
                 }
@@ -528,9 +530,9 @@
               }else {
                 m[0] -= 0;
                 m[1] -= 0;
-                if(isNaN(m[1])) m[1] = m[0];
+                if(isNaN(m[1])) m[1] = m[0] + 1;
                 if(m[1] < m[0]) m[1] += 24;
-                while(m[0] <= m[1]) {
+                while(m[0] < m[1]) {
                   time[(m[0] - 1) % 24] = 1;
                   m[0] += 1;
                 }
@@ -553,7 +555,9 @@
           clearTimeout(this.t);
           var n = new Date();
           this.month = n.getMonth();
-          this.hour = n.getHours();
+          // this.hour = n.getHours();
+          this.hour = 19;
+          this.poi = (this.hour * 60 + n.getMinutes()) / 14.4;
           this.t = setTimeout(this.update, (60 - n.getSeconds()) * 1000);
           this.refresh();
         },
@@ -561,8 +565,8 @@
           this.all = [];
           this.insect.forEach(i => {
             if(i.obtained) i.seed = i.price - 0;
-            else i.seed = i.price - 0 + 5000;
-            if(i.date[this.month] == 0) i.seed = i.id;
+            else i.seed = i.price - 0 + 20000;
+            if(i.date[this.month] == 0) i.seed = 100 - i.id;
             else if(i.time[this.hour - 1] == 1) i.seed += 15000;
             this.all.push(i);
           });
@@ -571,8 +575,8 @@
           });
           this.fish.forEach(i => {
             if(i.obtained) i.seed = i.price - 0;
-            else i.seed = i.price - 0 + 5000;
-            if(i.date[this.month] == 0) i.seed = i.id;
+            else i.seed = i.price - 0 + 20000;
+            if(i.date[this.month] == 0) i.seed = 100 - i.id;
             else if(i.time[this.hour - 1] == 1) i.seed += 15000;
             this.all.push(i);
           });
@@ -587,6 +591,10 @@
           this.all.sort((a, b) => {
             return b.seed - a.seed;
           });
+        },
+        save() {
+          localStorage.fish = JSON.stringify(App.fish);
+          localStorage.insect = JSON.stringify(App.insect);
         }
       },
       mounted() {
@@ -605,8 +613,8 @@
       }
     });
     window.addEventListener('beforeunload', event => {
-      localStorage.fish = JSON.stringify(App.fish);
-      localStorage.insect = JSON.stringify(App.insect);
+      // localStorage.fish = JSON.stringify(App.fish);
+      // localStorage.insect = JSON.stringify(App.insect);
     });
   </script>
 </body>
