@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <title>DNA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="./reset.css">
+  <style>
+    html {
+      font-size: 20px;
+    }
+    body {
+      background: #eee;
+    }
+    *, :after, :before {
+      box-sizing: border-box;
+    }
+    header {
+      width: 100%;
+      text-align: right;
+      margin-bottom: 10px;
+    }
+    main {
+      display: flex;
+      flex-flow: row wrap;
+      margin: 10px;
+    }
+    .checkbox {
+      display: inline-block;
+      font-size: 14px;
+      cursor: pointer;
+      line-height: 1;
+      vertical-align: middle;
+      user-select: none;
+    }
+    .checkbox .ck {
+      position: relative;
+      display: inline-block;
+      width: 3em;
+      height: 1.5em;
+      border-radius: .75em;
+      vertical-align: sub;
+      background: #50bfff;
+      filter: grayscale(100%);
+      transition: all .35s;
+    }
+    .checkbox .ck::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      display: block;
+      width: 1.5em;
+      height: 1.5em;
+      border: 3px solid transparent;
+      border-radius: 50%;
+      background: #fff no-repeat center / contain;
+      background-clip: content-box;
+      transition: all .35s cubic-bezier(.78,.14,.15,.86);
+    }
+    .checkbox .ck:active::before {width: 1.7em; }
+    .checkbox input.control-ck:checked + .ck {
+      filter: grayscale(0%);
+    }
+    .checkbox input.control-ck:checked + .ck:active::before {left: 1.3em; }
+    .checkbox input.control-ck:checked + .ck::before {left: 50%; }
+    .checkbox .text {
+      padding: 0 .5em 0 2px;
+      vertical-align: text-top;
+      user-select: text;
+    }
+    .checkbox.disabled {
+      cursor: not-allowed;
+    }
+    .checkbox.disabled .ck {
+      background: #ccc;
+    }
+    .checkbox.disabled .ck::before {
+      background-color: #fafafa;
+    }
+    .checkbox.forgive {
+      filter: hue-rotate(260deg);
+    }
+    .checkbox.warn {
+      filter: hue-rotate(180deg);
+    }
+    .kakushi {
+      position: absolute;
+      -webkit-filter: opacity(0);
+      filter: opacity(0);
+      clip: rect(0,0,0,0);
+      z-index: -99;
+    }
+    .clear {
+      display: table;
+      clear: both;
+    }
+    [v-cloak] {
+      display: none;
+    }
+    .css-tree * {
+      margin: 0;
+      padding: 0;
+    }
+    .css-tree ul {
+      position: relative;
+      padding-top: 20px;
+      transition: all 0.5s;
+    }
+    .css-tree ul ul::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      border-left: 1px solid #ccc;
+      width: 0;
+      height: 20px;
+    }
+    .css-tree li {
+      float: left;
+      text-align: center;
+      list-style-type: none;
+      position: relative;
+      padding: 20px 5px 0 5px;
+      transition: all 0.5s;
+      font-size: 0;
+    }
+    .css-tree li::after, .css-tree li::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 50%;
+      border-top: 1px solid #ccc;
+      width: 50%;
+      height: 20px;
+    }
+    .css-tree li::after {
+      right: auto;
+      left: 50%;
+      border-left: 1px solid #ccc;
+    }
+    .css-tree li:only-child {
+      padding-top: 0;
+    }
+    .css-tree li:only-child::after, .css-tree li:only-child::before {
+      display: none;
+    }
+    .css-tree li:first-child::before, .css-tree li:last-child::after {
+      border: 0 none;
+    }
+    .css-tree li:last-child::before {
+      border-right: 1px solid #ccc;
+      border-radius: 0 5px 0 0;
+    }
+    .css-tree li:first-child::after {
+      border-radius: 5px 0 0 0;
+    }
+    .css-tree li p {
+      border: 1px solid #ccc;
+      padding: 5px 10px;
+      text-decoration: none;
+      color: #666;
+      font-family: arial, verdana, tahoma;
+      font-size: 11px;
+      display: inline-block;
+      border-radius: 5px;
+      transition: all 0.5s;
+    }
+    .css-tree li p:hover, .css-tree li p:hover + ul li p {
+      background: #c8e4f8;
+      color: #000;
+      border: 1px solid #94a0b4;
+    }
+    .css-tree li p:hover + ul li::after,
+    .css-tree li p:hover + ul li::before, .css-tree li p:hover + ul::before,
+    .css-tree li p:hover + ul ul::before {
+      border-color: #94a0b4;
+    }
+  </style>
+  <style>
+    .item {
+      border-radius: 4px;
+      margin-bottom: 5px;
+      font-size: 12px;
+      padding: 0 .5em;
+      line-height: 2;
+      text-align: center;
+    }
+    .item p {
+      font-weight: 900;
+    }
+    .White {
+      color: #777;
+      background: #fff;
+    }
+    .Red {
+      color: #fff;
+      background: #fc605d;
+    }
+    .Yellow {
+      color: #fff;
+      background: #fdbc40;
+    }
+  </style>
+</head>
+<body>
+  <main id="app" v-cloak>
+    <header>
+    </header>
+    <div class="sidebar">
+      <div class="item" v-for="f in flower" :class="f.color">
+        <p v-text="f.color"></p>
+      </div>
+    </div>
+    <div class="content">
+      <div class="wait">
+        <div class="item" v-if="w1" @click="w1 = null" :class="w1.color">
+          <p v-text="w1.color"></p>
+        </div>
+        <div class="item" v-if="w2" @click="w2 = null" :class="w2.color">
+          <p v-text="w2.color"></p>
+        </div>
+      </div>
+      <css-tree :data=csstreedata></css-tree>
+    </div>
+  </main>
+  <script src="http://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+  <script>
+    const DNA = {
+      "00": {DNA: "rryyWWss", color: "White"},
+      "01": {DNA: "rryyWWSs", color: "White"},
+      "03": {DNA: "rryyWWSS", color: "White"},
+      "04": {DNA: "rryyWwss", color: "White"},
+      "05": {DNA: "rryyWwSs", color: "White"},
+      "07": {DNA: "rryyWwSS", color: "White"},
+      "0c": {DNA: "rryywwss", color: "Purple"},
+      "0d": {DNA: "rryywwSs", color: "Purple"},
+      "0f": {DNA: "rryywwSS", color: "Purple"},
+      "10": {DNA: "rrYyWWss", color: "Yellow"},
+      "11": {DNA: "rrYyWWSs", color: "Yellow"},
+      "13": {DNA: "rrYyWWSS", color: "Yellow"},
+      "14": {DNA: "rrYyWwss", color: "White"},
+      "15": {DNA: "rrYyWwSs", color: "White"},
+      "17": {DNA: "rrYyWwSS", color: "White"},
+      "1c": {DNA: "rrYywwss", color: "Purple"},
+      "1d": {DNA: "rrYywwSs", color: "Purple"},
+      "1f": {DNA: "rrYywwSS", color: "Purple"},
+      "30": {DNA: "rrYYWWss", color: "Yellow"},
+      "31": {DNA: "rrYYWWSs", color: "Yellow"},
+      "33": {DNA: "rrYYWWSS", color: "Yellow"},
+      "34": {DNA: "rrYYWwss", color: "Yellow"},
+      "35": {DNA: "rrYYWwSs", color: "Yellow"},
+      "37": {DNA: "rrYYWwSS", color: "Yellow"},
+      "3c": {DNA: "rrYYwwss", color: "White"},
+      "3d": {DNA: "rrYYwwSs", color: "White"},
+      "3f": {DNA: "rrYYwwSS", color: "White"},
+      "40": {DNA: "RryyWWss", color: "Red"},
+      "41": {DNA: "RryyWWSs", color: "Pink"},
+      "43": {DNA: "RryyWWSS", color: "White"},
+      "44": {DNA: "RryyWwss", color: "Red"},
+      "45": {DNA: "RryyWwSs", color: "Pink"},
+      "47": {DNA: "RryyWwSS", color: "White"},
+      "4c": {DNA: "Rryywwss", color: "Red"},
+      "4d": {DNA: "RryywwSs", color: "Pink"},
+      "4f": {DNA: "RryywwSS", color: "Purple"},
+      "50": {DNA: "RrYyWWss", color: "Orange"},
+      "51": {DNA: "RrYyWWSs", color: "Yellow"},
+      "53": {DNA: "RrYyWWSS", color: "Yellow"},
+      "54": {DNA: "RrYyWwss", color: "Red"},
+      "55": {DNA: "RrYyWwSs", color: "Pink"},
+      "57": {DNA: "RrYyWwSS", color: "White"},
+      "5c": {DNA: "RrYywwss", color: "Red"},
+      "5d": {DNA: "RrYywwSs", color: "Pink"},
+      "5f": {DNA: "RrYywwSS", color: "Purple"},
+      "70": {DNA: "RrYYWWss", color: "Orange"},
+      "71": {DNA: "RrYYWWSs", color: "Yellow"},
+      "73": {DNA: "RrYYWWSS", color: "Yellow"},
+      "74": {DNA: "RrYYWwss", color: "Orange"},
+      "75": {DNA: "RrYYWwSs", color: "Yellow"},
+      "77": {DNA: "RrYYWwSS", color: "Yellow"},
+      "7c": {DNA: "RrYYwwss", color: "Red"},
+      "7d": {DNA: "RrYYwwSs", color: "Pink"},
+      "7f": {DNA: "RrYYwwSS", color: "White"},
+      "c0": {DNA: "RRyyWWss", color: "Black"},
+      "c1": {DNA: "RRyyWWSs", color: "Red"},
+      "c3": {DNA: "RRyyWWSS", color: "Pink"},
+      "c4": {DNA: "RRyyWwss", color: "Black"},
+      "c5": {DNA: "RRyyWwSs", color: "Red"},
+      "c7": {DNA: "RRyyWwSS", color: "Pink"},
+      "cc": {DNA: "RRyywwss", color: "Black"},
+      "cd": {DNA: "RRyywwSs", color: "Red"},
+      "cf": {DNA: "RRyywwSS", color: "Pink"},
+      "d0": {DNA: "RRYyWWss", color: "Orange"},
+      "d1": {DNA: "RRYyWWSs", color: "Orange"},
+      "d3": {DNA: "RRYyWWSS", color: "Yellow"},
+      "d4": {DNA: "RRYyWwss", color: "Red"},
+      "d5": {DNA: "RRYyWwSs", color: "Red"},
+      "d7": {DNA: "RRYyWwSS", color: "White"},
+      "dc": {DNA: "RRYywwss", color: "Black"},
+      "dd": {DNA: "RRYywwSs", color: "Red"},
+      "df": {DNA: "RRYywwSS", color: "Purple"},
+      "f0": {DNA: "RRYYWWss", color: "Orange"},
+      "f1": {DNA: "RRYYWWSs", color: "Orange"},
+      "f3": {DNA: "RRYYWWSS", color: "Yellow"},
+      "f4": {DNA: "RRYYWwss", color: "Orange"},
+      "f5": {DNA: "RRYYWwSs", color: "Orange"},
+      "f7": {DNA: "RRYYWwSS", color: "Yellow"},
+      "fc": {DNA: "RRYYwwss", color: "Blue"},
+      "fd": {DNA: "RRYYwwSs", color: "Red"},
+      "ff": {DNA: "RRYYwwSS", color: "White"}
+    };
+    Vue.component('css-tree-node', {
+      template: `<li>
+                   <p v-text="data.name"></p>
+                   <ul v-if="data.children">
+                     <css-tree-node :data="i" v-for="i in data.children" :key="i.id"></css-tree-node>
+                   </ul>
+                 </li>`,
+      props: ['data']
+    });
+    Vue.component('css-tree', {
+      template: `<div class="css-tree">
+                   <ul>
+                     <css-tree-node :data="i" v-for="i in data" :key="i.id"></css-tree-node>
+                   </ul>
+                 </div>`,
+      props: ["data"]
+    });
+  </script>
+  <script>
+    var App = new Vue({
+      el: '#app',
+      data: {
+        w1: null,
+        w2: null,
+        flower: [
+          {id: 1, parent: [], color: 'White', DNA: [{key: "04", probability: 100}]},
+          {id: 2, parent: [], color: 'Yellow', DNA: [{key: "30", probability: 100}]},
+          {id: 3, parent: [], color: 'Red', DNA: [{key: "c1", probability: 100}]}
+        ],
+        csstreedata: [
+          {id: 2, name: "test2", children: [
+            {id: 20, name: "test20"},
+            {id: 21, name: "test21", children: [
+              {id: 210, name: "test210"},
+              {id: 211, name: "test211"},
+              {id: 212, name: "test212", children: [
+                {id: 2120, name: "test2120"}
+              ]},
+              {id: 213, name: "test213"}
+            ]},
+            {id: 22, name: "test22"}
+          ]}
+        ]
+      },
+      methods: {
+        addFlower(f) {
+          if(!w1) w1 = f;
+          else if(!w2) w2 = f;
+        },
+        update() {
+
+        },
+        save() {
+          // localStorage.fish = JSON.stringify(App.fish);
+        }
+      },
+      mounted() {
+      }
+    });
+  </script>
+</body>
+</html>
