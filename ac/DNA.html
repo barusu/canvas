@@ -190,6 +190,9 @@
       padding: 0 .5em;
       line-height: 2;
     }
+    span {
+      font-weight: inherit;
+    }
     .item .uni {
       box-shadow: 1px 1px 3px #aaa;
     }
@@ -221,6 +224,10 @@
       color: #fff !important;
       background: #000;
     }
+    .Orange p {
+      color: #fff !important;
+      background: #f7a650;
+    }
     .wait {
       position: absolute;
       top: 0; left: 0;
@@ -238,6 +245,14 @@
       position: relative;
       padding-top: 1em;
     }
+    .seq {
+      float: left;
+      margin-right: 6px;
+    }
+    .dna {
+      float: right;
+      margin-left: 6px;
+    }
   </style>
 </head>
 <body>
@@ -246,7 +261,11 @@
     </header>
     <div class="sidebar">
       <div class="item" v-for="f in flower" @click="addFlower(f)" :class="f.color">
-        <p v-text="f.color" :class="{'uni': f.DNA.length === 1}"></p>
+        <p :class="{'uni': f.DNA.length === 1}">
+          <span v-text="f.DNA[0].key" v-if="f.DNA.length === 1" class="seq"></span>
+          <span v-text="DNA[f.DNA[0].key].DNA" v-if="f.DNA.length === 1" class="dna"></span>
+          <span v-text="f.color"></span>
+        </p>
       </div>
     </div>
     <div class="content">
@@ -262,16 +281,16 @@
         </div>
       </div>
       <css-tree :data=csstreedata></css-tree>
-      <div class="history">
-        <div v-for="i in history">
-          <css-tree :data=i></css-tree>
-        </div>
+    </div>
+    <div class="history">
+      <div v-for="i in history">
+        <css-tree :data=i></css-tree>
       </div>
     </div>
   </main>
   <script src="http://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
   <script>
-    var POI = 1;
+    var POI = 11;
     const DNA = {
       "00": {DNA: "rryyWWss", color: "White"},
       "01": {DNA: "rryyWWSs", color: "White"},
@@ -415,14 +434,11 @@
       data: {
         w1: null,
         w2: null,
-        flower: [
-          {id: 1, parent: [], color: 'White', DNA: [{key: "04", probability: 100}]},
-          {id: 2, parent: [], color: 'Yellow', DNA: [{key: "30", probability: 100}]},
-          {id: 3, parent: [], color: 'Red', DNA: [{key: "c1", probability: 100}]}
-        ],
+        flower: [],
         flowerMap: {},
         csstreedata: [],
-        history: []
+        history: [],
+        DNA: DNA
       },
       methods: {
         addFlower(f) {
@@ -441,7 +457,7 @@
           });
         },
         sex(a, b, rs) {
-          var base = a.probability * b.probability / 100;
+          var base = 100;
           var ad = DNA[a.key].DNA;
           var bd = DNA[b.key].DNA;
           var list = [], tem = [], children = [];
@@ -472,6 +488,7 @@
           });
           rs.push({
             id: POI++,
+            // name: DNA[a.key].DNA + '×' + DNA[b.key].DNA,
             name: a.key + '×' + b.key,
             children: children
           });
@@ -488,18 +505,49 @@
                     key: i.key,
                     probability: i.probability
                   };
-                });
+                })
               };
               if(t.DNA.length == 1) {
-                this.flowerMap[t.DNA[0].key]
+                if(this.flowerMap[t.DNA[0].key]) {
+                  this.flowerMap[t.DNA[0].key].parent.push(t.parent[0]);
+                  return;
+                }else {
+                  this.flowerMap[t.DNA[0].key] = t;
+                }
               }
+              this.flower.push(t);
             });
           });
           this.history.push(this.csstreedata);
           this.csstreedata = [];
+          this.w1 = null;
+          this.w2 = null;
         }
       },
       mounted() {
+        var seed = [
+          {id: 1, parent: [], color: 'White', DNA: [{key: "04", probability: 100}]},
+          {id: 2, parent: [], color: 'Yellow', DNA: [{key: "30", probability: 100}]},
+          {id: 3, parent: [], color: 'Red', DNA: [{key: "c1", probability: 100}]}
+        ];
+        seed.forEach(i => {
+          this.flowerMap[i.DNA[0].key] = i;
+          this.flower.push(i);
+        });
+        // var tem = [
+        //   {id: 4, parent: [], color: 'White', DNA: []},
+        //   {id: 5, parent: [], color: 'Yellow', DNA: []},
+        //   {id: 6, parent: [], color: 'Red', DNA: []},
+        //   {id: 7, parent: [], color: 'Purple', DNA: []},
+        //   {id: 8, parent: [], color: 'Pink', DNA: []},
+        //   {id: 9, parent: [], color: 'Orange', DNA: []},
+        //   {id: 10, parent: [], color: 'Black', DNA: []}
+        // ];
+        // var dna = Object.keys(DNA);
+        // tem.forEach(t => {
+        //   t.DNA = dna.filter(i => DNA[i].color == t.color).map(i => ({key: i, probability: 0}));
+        //   this.flower.push(t);
+        // });
       }
     });
   </script>
