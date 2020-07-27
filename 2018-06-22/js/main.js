@@ -1,2 +1,39 @@
-"use strict";var svgElement=document.querySelector("svg"),maskedElement=document.querySelector("#mask-circle"),circleFeedback=document.querySelector("#circle-shadow"),svgPoint=svgElement.createSVGPoint();function cursorPoint(e,t){return svgPoint.x=e.clientX,svgPoint.y=e.clientY,svgPoint.matrixTransform(t.getScreenCTM().inverse())}function update(e){maskedElement.setAttribute("cx",e.x),maskedElement.setAttribute("cy",e.y),circleFeedback.setAttribute("cx",e.x),circleFeedback.setAttribute("cy",e.y)}window.addEventListener("mousemove",function(e){update(cursorPoint(e,svgElement))},!1),document.addEventListener("touchmove",function(e){e.preventDefault();var t=e.targetTouches[0];t&&update(cursorPoint(t,svgElement))},!1);
-//# sourceMappingURL=main.js.map
+'use strict';
+
+/**
+ * 原网址: https://codepen.io/noeldelgado/pen/ByxQjL/
+ * 简单修改了一下
+ */
+
+var svgElement = document.querySelector('svg');
+var maskedElement = document.querySelector('#mask-circle');
+var circleFeedback = document.querySelector('#circle-shadow');
+var xxx = document.querySelector('#xxx');
+var svgPoint = svgElement.createSVGPoint();
+
+function cursorPoint(e, svg) {
+  svgPoint.x = e.clientX;
+  svgPoint.y = e.clientY;
+  return svgPoint.matrixTransform(svg.getScreenCTM().inverse());
+}
+
+function update(svgCoords) {
+  maskedElement.setAttribute('cx', svgCoords.x);
+  maskedElement.setAttribute('cy', svgCoords.y);
+  circleFeedback.setAttribute('cx', svgCoords.x);
+  circleFeedback.setAttribute('cy', svgCoords.y);
+  xxx.setAttribute('x', -svgCoords.x);
+  xxx.setAttribute('y', -svgCoords.y);
+}
+
+window.addEventListener('mousemove', function (e) {
+  update(cursorPoint(e, svgElement));
+}, false);
+
+document.addEventListener('touchmove', function (e) {
+  e.preventDefault();
+  var touch = e.targetTouches[0];
+  if (touch) {
+    update(cursorPoint(touch, svgElement));
+  }
+}, false);

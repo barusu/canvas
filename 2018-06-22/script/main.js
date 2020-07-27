@@ -6,6 +6,7 @@
 var svgElement = document.querySelector('svg');
 var maskedElement = document.querySelector('#mask-circle');
 var circleFeedback = document.querySelector('#circle-shadow');
+var xxx = document.querySelector('#xxx');
 var svgPoint = svgElement.createSVGPoint();
 
 function cursorPoint(e, svg) {
@@ -19,6 +20,8 @@ function update(svgCoords) {
   maskedElement.setAttribute('cy', svgCoords.y);
   circleFeedback.setAttribute('cx', svgCoords.x);
   circleFeedback.setAttribute('cy', svgCoords.y);
+  xxx.setAttribute('x', -svgCoords.x);
+  xxx.setAttribute('y', -svgCoords.y);
 }
 
 window.addEventListener('mousemove', function(e) {
