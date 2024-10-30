@@ -6,6 +6,7 @@ const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
+const cleanCSS = require('gulp-clean-css');
 const babel = require('gulp-babel');
 
 const rootpath = '**/demo/';
@@ -13,6 +14,24 @@ const rootpath = '**/demo/';
 function compileSass() {
   return src(rootpath + 'scss/!(_)*.scss')
     .pipe(sass().on('error', sass.logError))
+    .pipe(autoprefixer({ cascade: false }))
+    .pipe(rename(function (path) {
+      path.dirname = path.dirname.replace('/scss', '/css');
+    }))
+    .pipe(dest(''))
+    .pipe(cleanCSS())
+    .pipe(rename({suffix: '.min'}))
+    .pipe(dest(''));
+}
+function compileJs() {
+  return src(rootpath + 'script/!(_)*.js')
+    .pipe(babel({ presets: ['@babel/env'] }))
+    .pipe(rename(function (path) {
+      path.dirname = path.dirname.replace('/script', '/js');
+    }))
+    .pipe(dest(''))
+    .pipe(uglify())
+    .pipe(rename({suffix: '.min'}))
     .pipe(dest(''));
 }
 
